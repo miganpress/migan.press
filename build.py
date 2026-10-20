@@ -661,8 +661,6 @@ def page_book(site, books, i):
     stores = [(n, book.get(k)) for n, k in (("교보문고", "kyobo"), ("예스24", "yes24"), ("알라딘", "aladin")) if book.get(k)]
     if stores:
         rows.append(("구입처", ", ".join(f'<a href="{e(u)}">{n}</a>' for n, u in stores)))
-    elif book.get("status") != "published":
-        rows.append(("구입처", '<span class="muted">출간 후 연결됩니다</span>'))
     dl = "\n".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in rows)
     note = '<p class="meta-note">출간 이후 상세 정보는 바뀔 수 있습니다.</p>' if book.get("status") != "published" else ""
     downloads = downloads_html(book)
