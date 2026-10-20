@@ -1,0 +1,30 @@
+<script>
+/* 책 상세 왼쪽 목차: 지금 화면에 있는 구역을 표시하고, '차례'를 누르면 접힌 차례를 펼칩니다. */
+(function () {
+  var navs = [].slice.call(document.querySelectorAll('.book-nav')).map(function (nav) {
+    var links = [].slice.call(nav.querySelectorAll('a'));
+    var targets = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); });
+    links.forEach(function (a, i) {
+      a.addEventListener('click', function () {
+        var d = targets[i] && targets[i].querySelector('details');
+        if (d) d.open = true;
+      });
+    });
+    return { nav: nav, links: links, targets: targets };
+  });
+  function update() {
+    var line = window.innerHeight * 0.3;
+    navs.forEach(function (n) {
+      if (!n.nav.offsetParent) return;   /* 보이지 않는 목차(휴대폰)는 건너뜀 */
+      var current = 0;
+      n.targets.forEach(function (t, i) { if (t && t.getBoundingClientRect().top <= line) current = i; });
+      n.links.forEach(function (a, i) {
+        if (i === current) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+      });
+    });
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+</script>

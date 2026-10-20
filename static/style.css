@@ -1,0 +1,386 @@
+/* 미간 MIGAN
+   규칙은 하나: 로고의 두 획 사이에 난 빈 기둥이 사이트 전체의 가운데 여백이 됩니다.
+   --mark: 심볼의 기준 너비. 심볼 안의 빈 기둥은 그 너비의 18.66%이고,
+   --gap(모든 좌우 나눔의 가운데 여백)이 정확히 그 폭과 같습니다.
+   휴대폰(720px 이하) 규칙은 각 구역 바로 아래에 모아 두었습니다. */
+
+/* ── 바탕 ─────────────────────────────────────────── */
+:root {
+  --ink: #050000;
+  --paper: #f7f4ed;
+  --muted: #6b655a;
+  --hair: #d9d1c1;
+  --red: #ff3b26;          /* 미간 빨강: 로고와 강조에만 */
+  --next: #f7b7aa;         /* 연어: 바로 다음에 나올 책의 표지 */
+  --mark: clamp(220px, 34vw, 440px);
+  --gap: calc(var(--mark) * 0.1866);
+  --edge: clamp(24px, 4vw, 48px);
+  --section-gap: clamp(96px, 14vw, 200px);
+  --sans: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
+  --caps: 'Montserrat', 'Noto Sans KR', system-ui, sans-serif;
+  color-scheme: light;
+}
+@media (max-width: 720px) {
+  :root { --mark: min(40vw, 160px); --section-gap: 88px; }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  padding-inline: var(--edge);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.75;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+main { flex: 1; display: flex; flex-direction: column; gap: var(--section-gap); padding-bottom: clamp(96px, 12vw, 160px); }
+.site-header, main, .site-footer { width: 100%; max-width: 1200px; margin-inline: auto; }
+a { color: inherit; text-decoration: none; }
+a:hover { color: var(--red); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+h1, h2, p, dl, dd, ul { margin: 0; }
+cite { font-style: italic; }
+/* 낫표: 글꼴이 붙여 둔 반대편 빈 칸을 줄임 (build.py kern_brackets) */
+.bk-c { margin-right: -.45em; }
+.bk-o { margin-left: -.45em; }   /* 영문 책 제목 */
+img { display: block; max-width: 100%; }
+.muted { color: var(--muted); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (max-width: 720px) {
+  body { font-size: 15px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  a, button { transition: color 0.15s ease; }
+}
+
+/* 좌우 나눔: [왼쪽] [미간] [오른쪽] */
+.split { display: grid; grid-template-columns: minmax(0, 1fr) var(--gap) minmax(0, 1fr); align-items: start; }
+.split > :first-child { grid-column: 1; }
+.split > :last-child { grid-column: 3; }
+/* 휴대폰: 목록 줄(.book-row)만 좌우 나눔을 남기고 나머지는 한 줄로 쌓습니다 */
+@media (max-width: 720px) {
+  .feature, .about-hero, .person { grid-template-columns: minmax(0, 1fr); row-gap: 20px; }
+  .feature > *, .about-hero > *, .person > * { grid-column: 1 !important; justify-self: start !important; text-align: left; }
+}
+
+/* 제목 줄바꿈을 고르게 (예: 우리가 선택한 / 감옥 속에서) */
+.book-row__title, .cover__title, .work__title, .feature__text h2, .book__text h1, .pager .next span:last-child { text-wrap: balance; }
+
+/* 밑줄 링크: 이동 링크는 2px, 표 안의 작은 링크는 1px */
+.more, .more-intro summary { border-bottom: 2px solid currentColor; }
+.meta a { padding-bottom: 2px; border-bottom: 1px solid currentColor; }
+.downloads a { border-bottom: 1px solid currentColor; }
+
+/* ── 머리 ─────────────────────────────────────────── */
+.site-header { display: flex; justify-content: space-between; align-items: center; padding-block: 28px; }
+.logo { display: inline-flex; align-items: center; gap: 12px; color: var(--red); }
+.logo:hover { color: var(--red); }
+.logo__full { display: block; height: 40px; width: auto; }
+.logo__full .eye { transform-box: fill-box; transform-origin: center; }   /* 깜빡임 */
+.site-nav { display: flex; align-items: center; gap: 28px; font-weight: 500; font-size: 15px; }
+.site-nav a[aria-current="page"] { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 2px; text-decoration-color: var(--red); }
+.site-nav .lang { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; margin: -6px -6px -6px 0; }
+.site-nav .lang svg { display: block; }
+.site-nav .lang-ko { font-size: 14px; }
+@media (max-width: 720px) {
+  .site-header { padding-block: 20px; }
+  .logo__full { height: 34px; }
+}
+
+/* ── 꼬리: 아이콘과 저작권을 오른쪽 끝에 두 줄로 ───── */
+.site-footer { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; padding-block: 40px 48px; font-size: 13px; line-height: 1.7; }
+.site-footer__right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; text-align: right; }
+.social { display: flex; gap: 18px; align-items: center; }
+.social a { display: inline-flex; align-items: center; min-height: 32px; }
+.social .icon { width: 20px; height: 20px; display: block; }
+.social__text { font-size: 13px; border-bottom: 2px solid currentColor; }   /* 아이콘 파일이 없을 때 */
+.copyright { font-size: 11px; color: var(--muted); }
+
+/* ── 표지 ─────────────────────────────────────────── */
+.cover {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 10px;
+  position: relative;
+  aspect-ratio: 2 / 3;
+  width: 100%;
+  max-width: 100%;
+  padding: 8%;
+  background: var(--hair);   /* 글자 표지(아직 표지 이미지가 없는 책): 가는 선 색 면 */
+  color: var(--ink);
+  border: 1px solid var(--hair);
+}
+.cover:hover { color: var(--ink); }
+.cover--dark { background: var(--red); color: #f7f4ed; border-color: var(--red); }
+.cover--dark:hover { color: #f7f4ed; }
+.cover--next { background: var(--next); border-color: var(--next); }
+/* 누를 수 있는 글자 표지: 마우스를 올리면 미간 빨강 */
+a.cover:not(.cover--image):hover { background: var(--red); border-color: var(--red); color: #f7f4ed; }
+@media (prefers-reduced-motion: no-preference) {
+  a.cover { transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease; }
+}
+.cover--image img { width: 100%; height: 100%; object-fit: cover; box-shadow: 0 0 0 1px rgba(0, 0, 0, .06); }
+.cover__year { position: absolute; top: 8%; right: 8%; font-family: var(--caps); font-weight: 600; font-size: 12px; letter-spacing: 0.08em; }
+.cover__title { font-weight: 700; line-height: 1.3; letter-spacing: -0.02em; font-size: 20px; }
+.cover__credit { display: flex; flex-direction: column; font-size: 12px; line-height: 1.5; }
+.cover--l .cover__year, .cover--xl .cover__year { font-size: 14px; }
+.cover--l .cover__title, .cover--xl .cover__title { font-size: clamp(26px, 3vw, 36px); }
+.cover--l .cover__credit, .cover--xl .cover__credit { font-size: 14px; }
+.cover--xs { padding: 9%; }
+.cover--xs .cover__title { font-size: 11px; line-height: 1.35; }
+.cover--image { padding: 0; border: 0; background: none; }   /* 크기별 여백보다 뒤에 둡니다 */
+@media (max-width: 720px) {
+  .cover__title { font-size: 16px; }
+  .cover--xs .cover__title { font-size: 9px; }
+  /* 휴대폰의 큰 표지(첫 화면·책 상세) */
+  .cover--l, .cover--xl { padding: 10%; }
+  .cover--l .cover__title, .cover--xl .cover__title { font-size: 19px; }
+  .cover--l .cover__credit, .cover--xl .cover__credit { font-size: 11px; }
+  .cover--l .cover__year, .cover--xl .cover__year { font-size: 11px; top: 10%; right: 10%; }
+}
+
+/* ── 첫 화면: 다음 책 ──────────────────────────────── */
+.feature { align-items: end; padding-top: clamp(24px, 5vw, 64px); }
+.feature__cover { justify-self: end; width: min(100%, 360px); }
+.feature__text { display: flex; flex-direction: column; gap: 6px; max-width: 30em; }
+.feature__text h2 { font-size: clamp(26px, 3vw, 36px); font-weight: 700; line-height: 1.3; letter-spacing: -0.02em; }
+.feature__when { font-size: 14px; }
+.feature__tagline { margin-top: 18px; gap: 12px; }
+.more { align-self: flex-start; justify-self: start; margin-top: 18px; font-weight: 500; padding-bottom: 2px; }
+@media (max-width: 720px) {
+  .feature__cover { width: min(52%, 200px); }
+  .feature__text { padding-left: 3px; }   /* 표지 왼쪽 끝과 글자가 시각적으로 같은 선에 */
+  .feature__tagline { margin-top: 12px; }
+}
+
+/* ── 책 모음(첫 화면·책 페이지) ────────────────────── */
+.shelf-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 32px; }
+.shelf-head h2 { font-size: clamp(18px, 1.8vw, 22px); font-weight: 700; letter-spacing: -0.01em; }
+.shelf-head .more { margin-top: 0; }
+.book-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 56px; }
+.book-grid--5 { grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: 24px; }
+.books .book-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: clamp(20px, 2.4vw, 36px); max-width: 1160px; margin-inline: auto; }
+.card { display: flex; flex-direction: column; gap: 14px; }
+@media (max-width: 1024px) {
+  .book-grid--5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .books .book-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 640px; }
+}
+@media (max-width: 720px) {
+  .book-grid, .book-grid--5 { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 14px; row-gap: 36px; }
+  .books .book-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: none; }
+}
+
+/* ── 책 페이지: 보기 아이콘(목록/표지)만 오른쪽에 ──── */
+.page-head { display: flex; justify-content: flex-end; align-items: center; padding-top: 16px; margin-bottom: calc(-1 * clamp(64px, 12vw, 165px)); }
+.view-toggle { display: flex; gap: 6px; margin-right: -12px; }
+.view-toggle button { display: inline-flex; align-items: center; justify-content: center; width: 44px; min-height: 44px; padding: 0; border: 0; background: none; font: inherit; font-size: 15px; color: var(--hair); cursor: pointer; }
+.view-toggle button[aria-pressed="true"] { color: var(--ink); font-weight: 700; }
+.view-toggle button:hover { color: var(--muted); }
+.view-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+.books[data-current="grid"] .book-list { display: none; }
+.books[data-current="list"] .book-grid { display: none; }
+@media (max-width: 720px) {
+  .page-head { padding-top: 4px; margin-bottom: -68px; }
+}
+
+/* 목록 보기: 제목은 미간 왼쪽에, 지은이와 출간은 오른쪽에.
+   데스크톱은 제목이 한 줄이든 두 줄이든 행 높이를 같게 하고 세로 가운데에 */
+.book-list { display: flex; flex-direction: column; }
+.book-row { padding-block: 20px; border-top: 1px solid var(--hair); align-items: center; }
+.book-row:last-child { border-bottom: 1px solid var(--hair); }
+.book-row__title { display: flex; align-items: center; justify-content: flex-end; min-height: 2.8em; text-align: right; font-size: clamp(18px, 2vw, 22px); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
+.book-row__meta { display: flex; flex-direction: column; font-size: 14px; line-height: 1.6; }
+/* 휴대폰: 제목 글자의 윗선을 오른쪽 글자의 윗선에 맞추고, 지은이·옮긴이는 줄을 나눔 */
+@media (max-width: 720px) {
+  .book-row { align-items: start; }
+  .book-row__title { display: block; min-height: 0; font-size: 16px; }
+  .book-row__meta { min-height: calc(3 * 1.6em); font-size: 12px; }
+  .credit-line > span { display: block; }
+  .credit-line .credit-sep { display: none; }
+}
+
+/* ── 책 상세: 표지와 글 덩어리를 한 묶음으로 가운데에 ── */
+.book {
+  display: grid;
+  grid-template-columns: minmax(0, min(300px, 36%)) var(--gap) minmax(0, 1fr);   /* 태블릿 폭에서는 표지가 줄어 글 칸을 지킵니다 */
+  grid-template-rows: auto 1fr;
+  grid-template-areas: "cover . text" "meta . text";
+  align-items: start;
+  width: 100%;
+  max-width: min(1040px, 88%);
+  margin-inline: auto;
+  padding-top: clamp(24px, 5vw, 64px);
+}
+.book__cover { grid-area: cover; }
+.book__meta { grid-area: meta; margin-top: 28px; }
+.book__text { grid-area: text; display: flex; flex-direction: column; gap: 44px; }
+.book__text header { display: flex; flex-direction: column; gap: 10px; }
+.book__text h1 { font-size: clamp(32px, 4vw, 48px); font-weight: 700; line-height: 1.25; letter-spacing: -0.02em; }
+.book__text h1 .sub { display: block; font-size: 0.5em; font-weight: 500; margin-top: 8px; letter-spacing: -0.01em; }
+@media (max-width: 720px) {
+  .book { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto; grid-template-areas: "cover" "text" "meta"; row-gap: 20px; max-width: none; }
+  .book__cover { width: min(52%, 200px); }
+  .book__text, .book__meta { padding-left: 3px; }   /* 첫 화면과 같은 들임 */
+  .book__meta { margin-top: 24px; }
+  .book__text { max-width: 34em; }
+  .book__text h1 { font-size: 26px; line-height: 1.3; }
+  .book__text header { gap: 6px; margin-bottom: -26px; }
+  .book__text header p.muted { font-size: 14px; line-height: 1.75; }
+  /* 한글 본문 조판: 좁은 화면에서는 어절 단위로 끊으면 오른쪽이 들쭉날쭉해지므로,
+     글자 단위로 줄을 바꾸고 양끝을 맞춥니다. 문장부호는 줄머리에 오지 않게(strict). */
+  .book__text .prose p, .book-section .prose p, .praise blockquote p {
+    word-break: normal; line-break: strict; text-align: justify; text-justify: inter-character;
+  }
+  .book__text .prose .lead { text-align: left; word-break: keep-all; }   /* 태그라인은 행갈이 그대로 */
+}
+
+.prose { display: flex; flex-direction: column; gap: 18px; }
+.prose .lead, .prose strong { font-weight: 700; }
+.more-intro { margin-top: 4px; }
+.more-intro summary { display: inline-block; padding: 12px 0 2px; font-weight: 500; list-style: none; cursor: pointer; }
+.more-intro summary::-webkit-details-marker { display: none; }
+.more-intro summary::after { content: " +"; }
+.more-intro[open] summary::after { content: " −"; }
+.more-intro > .prose { margin-top: 20px; }
+.toc-section .more-intro { margin-top: -8px; }
+.toc__body { margin-top: 16px; display: flex; flex-direction: column; gap: 14px; }
+.toc__body ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.book-section { display: flex; flex-direction: column; gap: 16px; }
+.caps-ko { font-size: 13px; font-weight: 700; letter-spacing: 0.04em; margin: 0; }   /* 작은 굵은 머리말 */
+.praise figure { margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.praise figure + figure { margin-top: 14px; }
+.praise blockquote { margin: 0; font-size: inherit; line-height: inherit; }
+.praise blockquote p::before { content: "“"; }
+.praise blockquote p::after { content: "”"; }
+.praise figcaption { font-size: 13px; color: var(--muted); }
+.praise figcaption::before { content: "— "; }
+
+.meta { font-size: 14px; display: flex; flex-direction: column; gap: 10px; }
+.meta div { display: grid; grid-template-columns: 5em minmax(0, 1fr); gap: 12px; }
+.meta dt { color: var(--muted); }
+.downloads { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--hair); display: flex; flex-direction: column; gap: 10px; font-size: 14px; }
+.downloads ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.downloads a { padding-bottom: 1px; }
+.meta-note { margin-top: 20px; font-size: 12px; color: var(--muted); }
+
+/* 책 상세 아래: 왼쪽 '돌아가기', 오른쪽 '다음 책' */
+.pager { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; width: 100%; max-width: min(1040px, 88%); margin: -40px auto 0; }
+.pager .br-m { display: none; }
+.pager .next { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; text-align: right; font-weight: 700; font-size: 18px; }
+.pager__label { font-size: 13px; font-weight: 500; color: var(--muted); }
+@media (max-width: 720px) {
+  .pager { max-width: none; margin-top: 0; }
+  .pager .next { font-size: 15px; }
+  .pager .br-m { display: inline; }
+}
+
+/* ── 소개 ─────────────────────────────────────────── */
+/* 로고 모션: 눈 → 깜빡 → 책 → 글자 (partials/logo_motion_*.html) */
+.about-motion { display: flex; justify-content: center; padding-top: clamp(48px, 8vw, 88px); margin-bottom: calc(-1 * clamp(80px, 15vw, 180px)); }
+.logo-motion { width: min(420px, 72vw); height: auto; overflow: visible; cursor: pointer; }
+.logo-motion * { fill: var(--red); }
+.logo-motion .eye { transform-box: fill-box; transform-origin: center; }
+.logo-motion .half, .logo-motion .ltr, .logo-motion g { transform-box: view-box; }
+.logo-motion .half { transform-origin: 492px 440px; }
+.logo-motion g.book { transform-origin: 492px 543px; }
+
+.about-hero { padding-top: clamp(24px, 5vw, 64px); align-items: baseline; }
+.about-hero__left { text-align: right; font-size: clamp(17px, 1.6vw, 21px); font-weight: 700; line-height: 1.55; letter-spacing: -0.02em; }
+.about-hero__right { max-width: 30em; }
+.about-contact { margin-top: 44px; }
+.about-contact div { grid-template-columns: 7.5em minmax(0, 1fr); }
+/* 휴대폰: 태그라인과 소개글은 가운데, 연락처·책 목록은 왼쪽 */
+@media (max-width: 720px) {
+  .about-hero > * { justify-self: center !important; text-align: center; }
+  .about-hero__right { width: 100%; }
+  .about-hero__right .meta, .about-hero__right .en-block { text-align: left; }
+}
+
+/* 만드는 사람. 위쪽 구분선은 연락처와 이 구역 사이의 정확히 가운데에 */
+.person { position: relative; }
+.person__left { text-align: right; display: flex; flex-direction: column; gap: 8px; }
+.person__left h2 { font-size: clamp(17px, 1.6vw, 21px); font-weight: 700; letter-spacing: 0.02em; }
+.person__right { position: relative; max-width: 30em; }
+.person__right::before, .person::before { content: ""; position: absolute; left: 0; right: 0; top: calc(var(--section-gap) / -2); border-top: 1px solid var(--hair); }
+.person::before { display: none; }
+@media (max-width: 720px) {
+  .person__left { text-align: left; }
+  .person__right::before { display: none; }
+  .person::before { display: block; }
+}
+
+/* 만든 책: '만든 책 보기'로 펼치는 표지 목록 */
+.works-toggle { margin-top: 18px; padding: 0 0 2px; border: 0; border-bottom: 1px solid currentColor; background: none; font: inherit; font-size: 14px; line-height: 1.35; font-weight: 500; color: var(--ink); cursor: pointer; }
+.works-toggle::after { content: " +"; }
+.works-toggle[aria-expanded="true"]::after { content: " −"; }
+.works-block { width: 100%; max-width: 960px; margin: calc(-1 * clamp(48px, 9vw, 130px)) auto 0; }
+.works-block[hidden] { display: none !important; }
+.works { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); column-gap: 24px; row-gap: 40px; }
+.work { display: flex; flex-direction: column; gap: 2px; font-size: 11px; line-height: 1.45; }
+.work .cover { margin-bottom: 8px; border: 0; }
+.work .cover--image img { object-fit: contain; object-position: center bottom; box-shadow: none; }   /* 자르지 않고 통째로 */
+.work__title { font-size: 12px; font-weight: 700; }
+@media (max-width: 720px) {
+  .works { grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 10px; row-gap: 20px; }
+  .work { font-size: 10px; }
+  .work__title { font-size: 11px; }
+}
+
+/* ── 영문 페이지: Work Sans, 소개글 한 칸을 가운데에 ────── */
+.is-en { --sans: 'Work Sans', 'Noto Sans KR', sans-serif; --caps: 'Work Sans', 'Noto Sans KR', sans-serif; font-family: var(--sans); font-size: 15px; line-height: 1.65; }
+.is-en .copyright { font-size: 12px; }
+.about-hero--solo { display: block; width: 100%; max-width: 30em; margin-inline: auto; }
+.about-hero--solo .about-hero__right { max-width: none; }
+.about-hero--solo .prose { text-align: center; }   /* 소개글은 PC·휴대폰 모두 가운데, 목록과 연락처는 왼쪽 */
+.en-block { margin-top: 44px; display: flex; flex-direction: column; gap: 12px; }   /* Forthcoming Titles, Contact */
+.en-block h2 { margin-bottom: 6px; font-size: 14px; font-weight: 600; line-height: 1.4; letter-spacing: 0.06em; text-transform: uppercase; }
+.en-block .about-contact { margin-top: 0; }
+.en-books { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; font-size: 14px; line-height: 1.5; }
+.en-books li { display: flex; flex-direction: column; }
+.en-books__author { color: var(--muted); font-size: 13px; }
+
+/* ── 404 ──────────────────────────────────────────── */
+.not-found { display: flex; flex-direction: column; align-items: center; gap: 28px; padding-top: clamp(48px, 8vw, 88px); text-align: center; }
+.not-found__logo { color: var(--red); width: min(280px, 60vw); height: auto; }
+.not-found__logo svg { display: block; width: 100%; height: auto; }
+.not-found h1 { font-size: clamp(19px, 2.4vw, 26px); font-weight: 700; line-height: 1.4; letter-spacing: -0.02em; }
+.not-found .more { align-self: center; margin-top: 0; }
+
+/* ── 책 상세 왼쪽 목차: 표지·정보 아래에 두고, 본문을 읽는 동안 화면에 붙어 있음 ── */
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+.book__text [id], .book__meta [id] { scroll-margin-top: 32px; }
+.book__meta { align-self: stretch; }   /* 목차가 본문 끝까지 붙어 있을 수 있게 칸을 늘림 */
+.book-nav { position: sticky; top: 32px; margin-top: 44px; }
+.book-nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.5; }
+.book-nav a { color: var(--ink); font-weight: 700; }
+.book-nav a:hover { color: var(--red); }
+@media (max-width: 720px) {
+  .book__meta { align-self: start; }
+  .book-nav { display: none; }   /* 휴대폰은 한 줄로 쌓여 목차 없이 읽어 내려가요 */
+}
+
+/* 수상 내역: 한 줄에 하나 */
+.awards { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+
+/* 대표 소개 아래 바깥 링크(인터뷰 등) */
+/* '만든 책 보기' 바로 아래에 두고, 만든 책을 펼치면 그 아래로 밀려 내려감 */
+.person-links { margin-top: calc(-1 * var(--section-gap)); }
+.person-links__body { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+.works-block:not([hidden]) + .person-links { margin-top: calc(-1 * var(--section-gap) + 40px); }
+.person__links[hidden] { display: none; }
+.person__links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 14px; max-width: 30em; }
+@media (max-width: 720px) {
+  .person-links { grid-template-columns: minmax(0, 1fr); }
+  .person-links > :first-child { display: none; }
+  .person-links > * { grid-column: 1 !important; }
+}
+.person__links a { border-bottom: 1px solid currentColor; }

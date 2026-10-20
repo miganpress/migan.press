@@ -1,0 +1,8 @@
+<script>
+/* 이메일 수집 방지: 주소는 HTML에 그대로 적지 않고, 열릴 때 조립합니다. */
+(function () {
+  document.querySelectorAll('a[data-e]').forEach(function (a) {
+    try { var m = atob(a.getAttribute('data-e')); a.href = 'mailto:' + m; a.textContent = m; } catch (e) {}
+  });
+})();
+</script>

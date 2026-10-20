@@ -1,0 +1,52 @@
+<script>
+[].slice.call(document.querySelectorAll('svg.logo-motion')).forEach(function (svg) {
+  /* 소개 페이지 로고 모션: 눈이 뜨고 → 두 번 깜빡 → 책이 서고 펼쳐짐 → 글자가 떠오름 → 마지막 깜빡. 누르면 다시 재생. */
+  if (!svg.animate) return;
+  var eyes = [].slice.call(svg.querySelectorAll('.eye'));
+  var halves = [svg.querySelector('[id$="-hl"]'), svg.querySelector('[id$="-hr"]')];
+  var book = svg.querySelector('g.book');
+  var letters = [].slice.call(svg.querySelectorAll('.ltr'));
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var anims = [];
+  function at(el, frames, opts) { opts.fill = 'both'; anims.push(el.animate(frames, opts)); }
+  function blink(delay, dur) {
+    eyes.forEach(function (e) {
+      at(e, [{ transform: 'scaleY(1)' }, { transform: 'scaleY(.08)', offset: .45 }, { transform: 'scaleY(.08)', offset: .55 }, { transform: 'scaleY(1)' }],
+        { delay: delay, duration: dur || 230, easing: 'ease-in-out', composite: 'add' });
+    });
+  }
+  function play() {
+    anims.forEach(function (a) { a.cancel(); }); anims = [];
+    eyes.forEach(function (e, i) {
+      at(e, [{ transform: 'scale(0)', opacity: 0 }, { transform: 'scale(1.08)', opacity: 1, offset: .7 }, { transform: 'scale(1)', opacity: 1 }],
+        { delay: 150, duration: 520, easing: 'cubic-bezier(.2,.7,.3,1)' });
+    });
+    blink(1000); blink(1330);
+    at(book, [{ transform: 'scaleY(0)', opacity: 0 }, { transform: 'scaleY(1)', opacity: 1 }],
+      { delay: 1750, duration: 260, easing: 'cubic-bezier(.3,0,.2,1)' });
+    halves.forEach(function (h) {
+      at(h, [{ transform: 'scaleX(.035) translateY(-6px)' }, { transform: 'scaleX(1.035) translateY(0px)', offset: .78 }, { transform: 'scaleX(1) translateY(0px)' }],
+        { delay: 1980, duration: 820, easing: 'cubic-bezier(.65,0,.25,1)' });
+    });
+    letters.forEach(function (l, i) {
+      at(l, [{ transform: 'translateY(190px)' }, { transform: 'translateY(-6px)', offset: .8 }, { transform: 'translateY(0px)' }],
+        { delay: 2600 + i * 85, duration: 720, easing: 'cubic-bezier(.2,.75,.25,1)' });
+    });
+    blink(4350, 260);
+    if (reduce) anims.forEach(function (a) { a.finish(); });
+  }
+  svg.addEventListener('click', play);
+  /* 로고가 화면에 보일 때마다 재생합니다 (페이지에 들어올 때, 다시 돌아올 때) */
+  if ('IntersectionObserver' in window) {
+    var seen = false;
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting && !seen) { seen = true; play(); }
+        if (!en.isIntersecting) seen = false;
+      });
+    }, { threshold: 0.3 }).observe(svg);
+  } else {
+    play();
+  }
+});
+</script>
