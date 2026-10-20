@@ -26,11 +26,11 @@ jobs:
         with:
           python-version: "3.12"
       - name: 사이트 만들기 (시트를 읽어 dist/에 씀)
-        run: python3 build.py
+        run: echo "임시 점검 중이라 사이트를 새로 만들지 않습니다 (maintenance/ 폴더를 배포)"
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: maintenance
 
   deploy:
     needs: build
