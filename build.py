@@ -844,6 +844,15 @@ def page_404(site):
 <h1>페이지를 찾을 수 없습니다</h1>
 <a class="more" href="/">처음으로</a>
 </section>"""
+    if not BASE_PATH:
+        # 점검 때 쓰던 미리보기 주소(/preview-…/)로 들어오면 본 사이트의 같은 페이지로 보냅니다
+        body += """
+<script>
+(function () {
+  var m = location.pathname.match(/^\\/preview-[^\\/]+(\\/.*)?$/);
+  if (m) location.replace((m[1] || '/') + location.search + location.hash);
+})();
+</script>"""
     return layout(site, title="페이지 없음", body=body, path="/404.html")
 
 
