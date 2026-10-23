@@ -391,7 +391,7 @@ html { scroll-behavior: smooth; }
   background: var(--red);
   overflow: hidden;
 }
-.mg-track { display: flex; width: max-content; animation: mg-scroll 45s linear infinite; will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: translate3d(0, 0, 0); }   /* 휴대폰 사파리 깜빡임 방지: 띠를 GPU 레이어로 고정 */
+.mg-track { display: flex; width: max-content; animation: mg-scroll 51s linear infinite; will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: translate3d(0, 0, 0); }   /* 휴대폰 사파리 깜빡임 방지: 띠를 GPU 레이어로 고정 */
 .logo-band:hover .mg-track { animation-play-state: paused; }
 .mg-set { display: flex; align-items: flex-end; justify-content: space-around; flex: none; min-width: 100vw; }
 @keyframes mg-scroll { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
@@ -407,20 +407,22 @@ html { scroll-behavior: smooth; }
 @keyframes mg-look { 0%, 78%, 100% { transform: translateX(0); } 82%, 92% { transform: translateX(7px); } }
 @keyframes mg-look2 { 0%, 78%, 100% { transform: translateX(0); } 82%, 92% { transform: translateX(-7px); } }
 @keyframes mg-wink-now { 0%, 100% { transform: scaleY(1); } 35%, 65% { transform: scaleY(.08); } }
+/* 순서: 심벌 → 국문 → 영문 반복. 한 묶음 9개(a1–a9), 뒤 묶음(a10–a18)은 같은 자리끼리 짝 */
 .a1 .e { animation: mg-blink 6s 1s infinite; }
 .a2 .e { animation: mg-look 9s 3s infinite; }
 .a4 .e { animation: mg-double 11s 5s infinite; }
-.a6 .e { animation: mg-blink 13s 7s infinite; }
+.a7 .e { animation: mg-blink 13s 7s infinite; }
 .a8 .e { animation: mg-look2 12s 8s infinite; }
 .a10 .e { animation: mg-double 11s 2.5s infinite; }
-.a12 .e { animation: mg-blink 12s 9s infinite; }
-.a14 .e { animation: mg-look 10s 1.5s infinite; }
+.a11 .e { animation: mg-blink 12s 9s infinite; }
+.a13 .e { animation: mg-look 10s 1.5s infinite; }
 .a16 .e { animation: mg-double 11s 8s infinite; }
+.a17 .e { animation: mg-blink 9.5s 3.5s infinite; }
 /* 윙크: 화면 안에서 7~10초마다 한 번(24초 주기). 뒤 묶음의 같은 자리 로고가 같은 때 윙크해 한 화면에 겹치지 않습니다 */
-.a3 .l, .a11 .l { animation: mg-wink 24s -21s infinite; }
-.a5 .r, .a13 .r { animation: mg-wink 24s -14s infinite; }
-.a7 .r, .a15 .r { animation: mg-wink 24s -7s infinite; }
+.a3 .l, .a12 .l { animation: mg-wink 24s -21s infinite; }
+.a6 .r, .a15 .r { animation: mg-wink 24s -14s infinite; }
+.a9 .r, .a18 .r { animation: mg-wink 24s -7s infinite; }
 .mg-it:hover .l { animation: mg-wink-now .6s ease-in-out 1; }
 .mg-it:hover .r { animation: none; }
-@media (max-width: 640px) { .mg-track { animation-duration: 35s; } }
+@media (max-width: 640px) { .mg-track { animation-duration: 40s; } }
 @media (prefers-reduced-motion: reduce) { .mg-track, .mg-it .e { animation: none; } }
