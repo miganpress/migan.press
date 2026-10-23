@@ -159,7 +159,9 @@ def data_json(name):
 LOGO_STATIC = partial("logo_static_svg.html")    # 머리 로고(모션 로고의 마지막 모양)
 MOTION_JS = partial("logo_motion_js.html")
 LOGO_HEADER = partial("logo_header_svg.html")    # 머리 로고(국문 세로형, 미간 빨강)
-BLINK_JS = partial("logo_blink_js.html")         # 머리 로고 눈 깜빡임
+BLINK_JS = partial("logo_blink_js.html")
+# 스타일 파일이 바뀌면 주소 끝 ?v= 값도 바뀌어, 브라우저가 예전 파일을 쓰지 않습니다
+CSS_VER = hashlib.sha1((STATIC / "style.css").read_bytes()).hexdigest()[:8]         # 머리 로고 눈 깜빡임
 EMAIL_JS = partial("email_js.html")              # 이메일 주소 조립
 BOOK_NAV_JS = partial("book_nav_js.html")        # 책 상세 왼쪽 목차: 지금 읽는 구역 표시
 WORK_CATEGORIES = data_json("work_categories.json")   # 만든 책 제목 → 분야
@@ -483,7 +485,7 @@ def layout(site, *, title, body, current="", description="", image="", path="/",
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&amp;family=Noto+Sans+KR:wght@400;500;700{'&amp;family=Work+Sans:ital,wght@0,400;0,500;0,600;1,400' if lang == 'en' else ''}&amp;display=swap">
-<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/style.css?v={CSS_VER}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 </head>
 <body{' class="is-en"' if lang == 'en' else ''}>

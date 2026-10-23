@@ -43,7 +43,7 @@ body {
 main { flex: 1; display: flex; flex-direction: column; gap: var(--section-gap); padding-bottom: clamp(96px, 12vw, 160px); }
 .site-header, main, .site-footer { width: 100%; max-width: 1200px; margin-inline: auto; }
 a { color: inherit; text-decoration: none; }
-a:hover { color: var(--red); }
+a:hover { color: var(--ink); background: var(--lemon); }   /* 링크에 올리면 레몬 바탕 */
 a:focus-visible, button:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
 h1, h2, p, dl, dd, ul { margin: 0; }
 cite { font-style: italic; }
@@ -78,7 +78,7 @@ img { display: block; max-width: 100%; }
 /* ── 머리 ─────────────────────────────────────────── */
 .site-header { display: flex; justify-content: space-between; align-items: center; padding-block: 28px; }
 .logo { display: inline-flex; align-items: center; gap: 12px; color: var(--red); }
-.logo:hover { color: var(--red); }
+.logo:hover { color: var(--red); background: none; }
 .logo__full { display: block; height: 40px; width: auto; }
 .logo__full .eye { transform-box: fill-box; transform-origin: center; }   /* 깜빡임 */
 .site-nav { display: flex; align-items: center; gap: 28px; font-weight: 500; font-size: 15px; }
@@ -120,6 +120,7 @@ img { display: block; max-width: 100%; }
 .cover--dark:hover { color: #fff; }
 .cover--next { background: var(--lemon); border-color: var(--lemon); }
 /* 누를 수 있는 글자 표지: 마우스를 올리면 미간 빨강 */
+a.cover--image:hover { background: none; }
 a.cover:not(.cover--image):hover { background: var(--red); border-color: var(--red); color: #fff; }
 @media (prefers-reduced-motion: no-preference) {
   a.cover { transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease; }
@@ -355,7 +356,7 @@ html { scroll-behavior: smooth; }
 .book-nav { position: sticky; top: 32px; margin-top: 44px; }
 .book-nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.5; }
 .book-nav a { color: var(--ink); font-weight: 700; }
-.book-nav a:hover { color: var(--red); }
+.book-nav a:hover { color: var(--ink); background: var(--lemon); }
 @media (max-width: 720px) {
   .book__meta { align-self: start; }
   .book-nav { display: none; }   /* 휴대폰은 한 줄로 쌓여 목차 없이 읽어 내려가요 */
