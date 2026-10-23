@@ -159,6 +159,7 @@ def data_json(name):
 LOGO_STATIC = partial("logo_static_svg.html")    # 머리 로고(모션 로고의 마지막 모양)
 LOGO_MOTION = partial("logo_motion_svg.html")    # 소개·영문 페이지의 움직이는 로고
 MOTION_JS = partial("logo_motion_js.html")
+LOGO_HEADER = partial("logo_header_svg.html")    # 머리 로고(국문 세로형, 미간 빨강)
 BLINK_JS = partial("logo_blink_js.html")         # 머리 로고 눈 깜빡임
 EMAIL_JS = partial("email_js.html")              # 이메일 주소 조립
 BOOK_NAV_JS = partial("book_nav_js.html")        # 책 상세 왼쪽 목차: 지금 읽는 구역 표시
@@ -490,7 +491,7 @@ def layout(site, *, title, body, current="", description="", image="", path="/",
 </head>
 <body{' class="is-en"' if lang == 'en' else ''}>
 <header class="site-header">
-<a class="logo" href="{'/en/' if lang == 'en' else '/'}" aria-label="{'Migan Press' if lang == 'en' else '미간 처음으로'}">{LOGO_STATIC}</a>
+<a class="logo" href="{'/en/' if lang == 'en' else '/'}" aria-label="{'Migan Press' if lang == 'en' else '미간 처음으로'}">{LOGO_HEADER}</a>
 {nav_html}
 </header>
 <main>
