@@ -511,7 +511,7 @@ def layout(site, *, title, body, current="", description="", image="", path="/",
 
 def book_row(book):
     return f"""<a class="book-row split" href="/books/{e(book['slug'])}/">
-<span class="book-row__title">{book['title_html']}</span>
+<span class="book-row__title">{e(book['title'])}</span>
 <span class="book-row__meta"><span class="credit-line">{credit_html(book)}</span><span class="muted">{e(status_label(book))}</span></span>
 </a>"""
 
@@ -544,7 +544,7 @@ def page_home(site, books):
 <div class="feature__cover">{cover(feature, 'l', dark=True)}</div>
 <div class="feature__text">
 <p class="feature__when muted">{e(when)}</p>
-<h2 id="feature-title"><a href="/books/{e(feature['slug'])}/">{feature['title_html']}</a></h2>
+<h2 id="feature-title"><a href="/books/{e(feature['slug'])}/">{e(feature['title'])}</a></h2>
 <p>{e(credit(feature, short=True))}</p>
 <div class="feature__tagline prose">{paragraphs(feature.get('tagline') or feature.get('short'))}</div>
 <a class="more" href="/books/{e(feature['slug'])}/">자세히 보기</a>
@@ -665,7 +665,7 @@ def page_book(site, books, i):
     note = '<p class="meta-note">출간 이후 상세 정보는 바뀔 수 있습니다.</p>' if book.get("status") != "published" else ""
     downloads = downloads_html(book)
     subtitle = f'<span class="sub">{e(book["subtitle"])}</span>' if book.get("subtitle") else ""
-    nxt_title = nxt["title_html"].replace("<br>", ' <br class="br-m">') if nxt else ""
+    nxt_title = e(nxt["title"]) if nxt else ""
     next_html = (
         f'<a class="next" href="/books/{e(nxt["slug"])}/"><span class="pager__label">다음 책</span><span>{nxt_title}</span></a>'
         if nxt
