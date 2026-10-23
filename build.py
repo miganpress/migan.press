@@ -867,8 +867,26 @@ def page_en(site, books):
     return layout(site, title="Migan Press", body=body, path="/en/", lang="en", description=text)
 
 
+# 미리보기용: BASE_PATH="/preview-..." 로 빌드하면 모든 내부 링크 앞에 그 주소를 붙이고,
+# 검색엔진에 잡히지 않게 막습니다. 평소(본 사이트)에는 비워 둡니다.
+BASE_PATH = os.environ.get("BASE_PATH", "").rstrip("/")
+
+
+def apply_base(html):
+    if not BASE_PATH:
+        return html
+    html = re.sub(r'((?:href|src)=")/(?!/)', rf'\g<1>{BASE_PATH}/', html)
+    html = re.sub(r'url\((["\']?)/(?!/)', rf'url(\g<1>{BASE_PATH}/', html)
+    html = re.sub(r'<link rel="canonical"[^>]*>', '', html)
+    if 'name="robots"' not in html:
+        html = html.replace("<head>", '<head>\n<meta name="robots" content="noindex,nofollow">', 1)
+    return html
+
+
 def write(path, html):
     path.parent.mkdir(parents=True, exist_ok=True)
+    if path.suffix == ".html":
+        html = apply_base(html)
     path.write_text(html, encoding="utf-8")
 
 
@@ -899,7 +917,11 @@ def main():
     pages = ["/", "/books/", "/about/", "/en/"] + [f"/books/{b['slug']}/" for b in books]
     urls = "".join(f"<url><loc>{SITE_URL}{p}</loc></url>" for p in pages)
     write(DIST / "sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n')
-    write(DIST / "robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n")
+    if BASE_PATH:
+        (DIST / "sitemap.xml").unlink()
+        write(DIST / "robots.txt", "User-agent: *\nDisallow: /\n")
+    else:
+        write(DIST / "robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n")
     print(f"책 {len(books)}권, 만든 책 {len(works)}권으로 사이트를 만들었습니다 -> {DIST}")
 
 
