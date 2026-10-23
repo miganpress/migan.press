@@ -391,7 +391,7 @@ html { scroll-behavior: smooth; }
   background: var(--red);
   overflow: hidden;
 }
-.mg-track { display: flex; width: max-content; animation: mg-scroll 51s linear infinite; will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: translate3d(0, 0, 0); }   /* 휴대폰 사파리 깜빡임 방지: 띠를 GPU 레이어로 고정 */
+.mg-track { display: flex; width: max-content; animation: mg-scroll 46s linear infinite; will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: translate3d(0, 0, 0); }   /* 휴대폰 사파리 깜빡임 방지: 띠를 GPU 레이어로 고정 */
 .logo-band:hover .mg-track { animation-play-state: paused; }
 .mg-set { display: flex; align-items: flex-end; justify-content: space-around; flex: none; min-width: 100vw; }
 @keyframes mg-scroll { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
@@ -424,5 +424,5 @@ html { scroll-behavior: smooth; }
 .a9 .r, .a18 .r { animation: mg-wink 24s -7s infinite; }
 .mg-it:hover .l { animation: mg-wink-now .6s ease-in-out 1; }
 .mg-it:hover .r { animation: none; }
-@media (max-width: 640px) { .mg-track { animation-duration: 40s; } }
+@media (max-width: 640px) { .mg-track { animation-duration: 36s; } }
 @media (prefers-reduced-motion: reduce) { .mg-track, .mg-it .e { animation: none; } }
