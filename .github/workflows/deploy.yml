@@ -25,22 +25,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: 사이트 만들기 (점검 중 - 첫 화면은 준비 중 페이지, 실제 사이트는 숨은 미리보기 주소에)
-        env:
-          PREVIEW_PATH: ${{ secrets.PREVIEW_PATH }}
-        run: |
-          mkdir -p site
-          cp -a maintenance/. site/
-          if [ -n "$PREVIEW_PATH" ]; then
-            BASE_PATH="/$PREVIEW_PATH" python3 build.py
-            cp -a dist "site/$PREVIEW_PATH"
-          else
-            echo "PREVIEW_PATH 비밀값이 없어 미리보기는 만들지 않습니다"
-          fi
+      - name: 사이트 만들기 (시트를 읽어 dist/에 씀)
+        run: python3 build.py
+      # 다시 점검 페이지를 띄우려면: maintenance/ 폴더를 배포하던 이전 설정(git log에서 '숨은 미리보기')으로 되돌리면 됩니다
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: dist
 
   deploy:
     needs: build
