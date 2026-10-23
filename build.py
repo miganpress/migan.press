@@ -860,7 +860,7 @@ def page_en(site, books):
 {MOTION_JS}
 <section class="about-hero about-hero--solo">
 <h1 class="visually-hidden">Migan Press</h1>
-<div class="about-hero__right"><div class="prose"><p>{e(text)}</p></div>
+<div class="about-hero__right"><div class="prose">{paragraphs(text)}</div>
 {books_html}
 {contact}</div>
 </section>"""
