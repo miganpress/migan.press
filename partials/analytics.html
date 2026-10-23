@@ -1,0 +1,20 @@
+<script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '{GA_ID}');
+/* 마케팅용 클릭 기록: 서점 링크, 보도자료·표지 내려받기, 이메일 */
+document.addEventListener('click', function (ev) {
+  var a = ev.target.closest && ev.target.closest('a');
+  if (!a) return;
+  var kind = a.getAttribute('data-ga');
+  if (kind === 'store') {
+    gtag('event', 'store_click', { store: a.getAttribute('data-store'), book_title: a.getAttribute('data-book') });
+  } else if (kind === 'download') {
+    gtag('event', 'material_download', { item: a.getAttribute('data-item'), book_title: a.getAttribute('data-book') });
+  } else if ((a.getAttribute('href') || '').indexOf('mailto:') === 0) {
+    gtag('event', 'email_click', { page_path: location.pathname });
+  }
+});
+</script>

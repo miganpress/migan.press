@@ -161,6 +161,9 @@ MOTION_JS = partial("logo_motion_js.html")
 LOGO_HEADER = partial("logo_header_svg.html")    # 머리 로고(국문 세로형, 미간 빨강)
 BLINK_JS = partial("logo_blink_js.html")
 # 스타일 파일이 바뀌면 주소 끝 ?v= 값도 바뀌어, 브라우저가 예전 파일을 쓰지 않습니다
+# 구글 애널리틱스: 본 사이트에만 넣고, 미리보기(BASE_PATH)에는 넣지 않습니다
+GA_ID = "G-ZNCEWNR0QF"
+ANALYTICS = partial("analytics.html").replace("{GA_ID}", GA_ID)
 CSS_VER = hashlib.sha1((STATIC / "style.css").read_bytes()).hexdigest()[:8]         # 머리 로고 눈 깜빡임
 EMAIL_JS = partial("email_js.html")              # 이메일 주소 조립
 BOOK_NAV_JS = partial("book_nav_js.html")        # 책 상세 왼쪽 목차: 지금 읽는 구역 표시
@@ -481,6 +484,7 @@ def layout(site, *, title, body, current="", description="", image="", path="/",
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+{"" if BASE_PATH else ANALYTICS}
 <title>{e(full_title)}</title>
 <meta name="description" content="{e(desc)}">
 <meta property="og:title" content="{e(full_title)}">
@@ -620,7 +624,7 @@ def downloads_html(book):
     if not items:
         return ""
     links = "".join(
-        f'<li><a href="{e(href)}" download target="_blank" rel="noopener">{label}<span aria-hidden="true"> ↓</span></a></li>'
+        f'<li><a href="{e(href)}" download target="_blank" rel="noopener" data-ga="download" data-item="{label}" data-book="{e(book["title"])}">{label}<span aria-hidden="true"> ↓</span></a></li>'
         for label, href in items
     )
     return f'<div class="downloads" id="downloads"><p class="caps-ko">관련 자료 받기</p><ul>{links}</ul></div>'
@@ -668,7 +672,7 @@ def page_book(site, books, i):
         rows.append(("ISBN", e(isbn)))
     stores = [(n, book.get(k)) for n, k in (("교보문고", "kyobo"), ("예스24", "yes24"), ("알라딘", "aladin")) if book.get(k)]
     if stores:
-        rows.append(("구입처", ", ".join(f'<a href="{e(u)}">{n}</a>' for n, u in stores)))
+        rows.append(("구입처", ", ".join(f'<a href="{e(u)}" data-ga="store" data-store="{n}" data-book="{e(book["title"])}">{n}</a>' for n, u in stores)))
     dl = "\n".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in rows)
     note = '<p class="meta-note">출간 이후 상세 정보는 바뀔 수 있습니다.</p>' if book.get("status") != "published" else ""
     downloads = downloads_html(book)
