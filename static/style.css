@@ -378,3 +378,48 @@ html { scroll-behavior: smooth; }
   .person-links > * { grid-column: 1 !important; }
 }
 .person__links a { border-bottom: 1px solid currentColor; }
+
+/* 푸터 로고 띠 (partials/footer_band.html): 미간 빨강 띠에 흰 로고가 흘러가고, 가끔 깜빡이거나 윙크합니다.
+   --band-h: 국문 로고 높이. 모든 로고는 같은 배율이라 심벌(눈·책) 크기가 같고, 아랫선(눈 아래)이 맞습니다. */
+.logo-band__defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.logo-band {
+  --band-h: clamp(36px, 4vw, 52px);
+  --band-gap: clamp(48px, 7vw, 88px);
+  margin-inline: calc(-1 * var(--edge));
+  padding-block: calc(var(--band-h) * 0.5);
+  background: var(--red);
+  overflow: hidden;
+}
+.mg-track { display: flex; width: max-content; animation: mg-scroll 45s linear infinite; }
+.logo-band:hover .mg-track { animation-play-state: paused; }
+.mg-set { display: flex; align-items: flex-end; justify-content: space-around; flex: none; min-width: 100vw; }
+@keyframes mg-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.mg-it { padding-inline: calc(var(--band-gap) / 2); }
+.mg-it svg { display: block; width: auto; overflow: visible; }
+.mg-ko svg { height: var(--band-h); }
+.mg-en svg { height: calc(var(--band-h) * 0.9673); margin-bottom: calc(var(--band-h) * 0.0027); }
+.mg-sy svg { height: calc(var(--band-h) * 0.6089); margin-bottom: calc(var(--band-h) * 0.0326); }
+.mg-it .e { transform-box: fill-box; transform-origin: 50% 50%; }
+@keyframes mg-blink { 0%, 93%, 100% { transform: scaleY(1); } 96% { transform: scaleY(.08); } }
+@keyframes mg-double { 0%, 92%, 95.2%, 100% { transform: scaleY(1); } 92.8%, 94.4% { transform: scaleY(.08); } 93.6% { transform: scaleY(1); } }
+@keyframes mg-wink { 0%, 95%, 97%, 100% { transform: scaleY(1); } 96% { transform: scaleY(.08); } }
+@keyframes mg-look { 0%, 78%, 100% { transform: translateX(0); } 82%, 92% { transform: translateX(7px); } }
+@keyframes mg-look2 { 0%, 78%, 100% { transform: translateX(0); } 82%, 92% { transform: translateX(-7px); } }
+@keyframes mg-wink-now { 0%, 100% { transform: scaleY(1); } 35%, 65% { transform: scaleY(.08); } }
+.a1 .e { animation: mg-blink 6s 1s infinite; }
+.a2 .e { animation: mg-look 9s 3s infinite; }
+.a4 .e { animation: mg-double 11s 5s infinite; }
+.a6 .e { animation: mg-blink 13s 7s infinite; }
+.a8 .e { animation: mg-look2 12s 8s infinite; }
+.a10 .e { animation: mg-double 11s 2.5s infinite; }
+.a12 .e { animation: mg-blink 12s 9s infinite; }
+.a14 .e { animation: mg-look 10s 1.5s infinite; }
+.a16 .e { animation: mg-double 11s 8s infinite; }
+/* 윙크: 화면 안에서 7~10초마다 한 번(24초 주기). 뒤 묶음의 같은 자리 로고가 같은 때 윙크해 한 화면에 겹치지 않습니다 */
+.a3 .l, .a11 .l { animation: mg-wink 24s -21s infinite; }
+.a5 .r, .a13 .r { animation: mg-wink 24s -14s infinite; }
+.a7 .r, .a15 .r { animation: mg-wink 24s -7s infinite; }
+.mg-it:hover .l { animation: mg-wink-now .6s ease-in-out 1; }
+.mg-it:hover .r { animation: none; }
+@media (max-width: 640px) { .mg-track { animation-duration: 35s; } }
+@media (prefers-reduced-motion: reduce) { .mg-track, .mg-it .e { animation: none; } }

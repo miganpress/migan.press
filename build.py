@@ -159,6 +159,7 @@ def data_json(name):
 LOGO_STATIC = partial("logo_static_svg.html")    # 머리 로고(모션 로고의 마지막 모양)
 MOTION_JS = partial("logo_motion_js.html")
 LOGO_HEADER = partial("logo_header_svg.html")    # 머리 로고(국문 세로형, 미간 빨강)
+FOOTER_BAND = partial("footer_band.html")       # 푸터 로고 띠
 BLINK_JS = partial("logo_blink_js.html")
 # 스타일 파일이 바뀌면 주소 끝 ?v= 값도 바뀌어, 브라우저가 예전 파일을 쓰지 않습니다
 # 구글 애널리틱스: 본 사이트에만 넣고, 미리보기(BASE_PATH)에는 넣지 않습니다
@@ -509,6 +510,7 @@ def layout(site, *, title, body, current="", description="", image="", path="/",
 <main>
 {body}
 </main>
+{FOOTER_BAND}
 <footer class="site-footer">
 <nav class="social" aria-label="{'Social media' if lang == 'en' else '미간 SNS'}">{socials}</nav>
 <div class="site-footer__right">
