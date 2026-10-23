@@ -9,9 +9,9 @@
   --ink: #050000;
   --paper: #ffffff;        /* 배경: 흰색 */
   --muted: #6b655a;
-  --hair: #d9d1c1;
+  --hair: #d9d9d9;         /* 연한 회색: 구분선·아이콘 */
+  --lemon: #f7f07a;        /* 레몬: 글자 표지 바탕, 책 목록 올렸을 때 */
   --red: #ff3b26;          /* 미간 빨강: 로고와 강조에만 */
-  --next: #f7b7aa;         /* 연어: 바로 다음에 나올 책의 표지 */
   --mark: clamp(220px, 34vw, 440px);
   --gap: calc(var(--mark) * 0.1866);
   --edge: clamp(24px, 4vw, 48px);
@@ -111,16 +111,16 @@ img { display: block; max-width: 100%; }
   width: 100%;
   max-width: 100%;
   padding: 8%;
-  background: var(--hair);   /* 글자 표지(아직 표지 이미지가 없는 책): 가는 선 색 면 */
+  background: var(--lemon);   /* 글자 표지(아직 표지 이미지가 없는 책): 레몬 면 */
   color: var(--ink);
-  border: 1px solid var(--hair);
+  border: 1px solid var(--lemon);
 }
 .cover:hover { color: var(--ink); }
-.cover--dark { background: var(--red); color: #f7f4ed; border-color: var(--red); }
-.cover--dark:hover { color: #f7f4ed; }
-.cover--next { background: var(--next); border-color: var(--next); }
+.cover--dark { background: var(--red); color: #fff; border-color: var(--red); }
+.cover--dark:hover { color: #fff; }
+.cover--next { background: var(--lemon); border-color: var(--lemon); }
 /* 누를 수 있는 글자 표지: 마우스를 올리면 미간 빨강 */
-a.cover:not(.cover--image):hover { background: var(--red); border-color: var(--red); color: #f7f4ed; }
+a.cover:not(.cover--image):hover { background: var(--red); border-color: var(--red); color: #fff; }
 @media (prefers-reduced-motion: no-preference) {
   a.cover { transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease; }
 }
@@ -193,6 +193,7 @@ a.cover:not(.cover--image):hover { background: var(--red); border-color: var(--r
 .book-list { display: flex; flex-direction: column; }
 .book-row { padding-block: 20px; border-top: 1px solid var(--hair); align-items: center; }
 .book-row:last-child { border-bottom: 1px solid var(--hair); }
+a.book-row:hover { color: var(--ink); background: var(--lemon); }   /* 책 목록: 글자색 대신 레몬 바탕 */
 .book-row__title { display: flex; align-items: center; justify-content: flex-end; min-height: 2.8em; text-align: right; font-size: clamp(18px, 2vw, 22px); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
 .book-row__meta { display: flex; flex-direction: column; font-size: 14px; line-height: 1.6; }
 /* 휴대폰: 제목 글자의 윗선을 오른쪽 글자의 윗선에 맞추고, 지은이·옮긴이는 줄을 나눔 */
