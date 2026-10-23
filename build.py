@@ -442,7 +442,7 @@ def kern_brackets(html_text):
 
 def layout(site, *, title, body, current="", description="", image="", path="/", lang="ko"):
     body = kern_brackets(body)
-    full_title = f"{title} — 미간 MIGAN" if title else "미간 MIGAN"
+    full_title = f"{title} | 미간프레스" if title else "미간프레스"   # 검색 결과·링크 미리보기에 뜨는 제목
     if lang == "en":
         full_title = "Migan Press"
     desc = description or site.get("tagline", "").replace("/", " ")
@@ -726,7 +726,8 @@ def page_book(site, books, i):
 <a class="back" href="/books/">← 목록으로</a>
 {next_html}
 </nav>"""
-    return layout(site, title=book["title"], body=body, current="books",
+    page_title = book["title"] + (f" | {names_ko(book['author'])} 지음" if book.get("author") else "")
+    return layout(site, title=page_title, body=body, current="books",
                   description=plain(book.get("short") or book.get("tagline", "")), image=book.get("cover", ""),
                   path=f"/books/{book['slug']}/")
 
