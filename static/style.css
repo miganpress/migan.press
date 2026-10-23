@@ -392,7 +392,6 @@ html { scroll-behavior: smooth; }
   overflow: hidden;
 }
 .mg-track { display: flex; width: max-content; animation: mg-scroll 46s linear infinite; will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: translate3d(0, 0, 0); }   /* 휴대폰 사파리 깜빡임 방지: 띠를 GPU 레이어로 고정 */
-.logo-band:hover .mg-track { animation-play-state: paused; }
 .mg-set { display: flex; align-items: flex-end; justify-content: space-around; flex: none; min-width: 100vw; }
 @keyframes mg-scroll { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
 .mg-it { padding-inline: calc(var(--band-gap) / 2); }
@@ -422,7 +421,14 @@ html { scroll-behavior: smooth; }
 .a3 .l, .a12 .l { animation: mg-wink 24s -21s infinite; }
 .a6 .r, .a15 .r { animation: mg-wink 24s -14s infinite; }
 .a9 .r, .a18 .r { animation: mg-wink 24s -7s infinite; }
-.mg-it:hover .l { animation: mg-wink-now .6s ease-in-out 1; }
-.mg-it:hover .r { animation: none; }
+/* 마우스가 있는 기기에서만: 올리면 띠가 멈추고 그 로고가 윙크. 휴대폰은 터치하면 멈춘 채 풀리지 않아 빼고, 누르는 동안 윙크만 */
+@media (hover: hover) and (pointer: fine) {
+  .logo-band:hover .mg-track { animation-play-state: paused; }
+  .mg-it:hover .l { animation: mg-wink-now .6s ease-in-out 1; }
+  .mg-it:hover .r { animation: none; }
+}
+@media (hover: none) {
+  .mg-it:active .l { animation: mg-wink-now .6s ease-in-out 1; }
+}
 @media (max-width: 640px) { .mg-track { animation-duration: 36s; } }
 @media (prefers-reduced-motion: reduce) { .mg-track, .mg-it .e { animation: none; } }
