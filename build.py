@@ -703,7 +703,7 @@ def page_book(site, books, i):
 <div class="book__text">
 <header>
 <p class="muted">{e(status_label(book))}</p>
-<h1>{book['title_html']}{subtitle}</h1>
+<h1>{e(book['title'])}{subtitle}</h1>
 <p>{e(credit(book))}</p>
 </header>
 <div class="prose" id="intro">
