@@ -285,12 +285,7 @@ a.cover:not(.cover--image):hover { background: var(--red); border-color: var(--r
 /* ── 소개 ─────────────────────────────────────────── */
 /* 로고 모션: 눈 → 깜빡 → 책 → 글자 (partials/logo_motion_*.html) */
 .about-motion { display: flex; justify-content: center; padding-top: clamp(48px, 8vw, 88px); margin-bottom: calc(-1 * clamp(80px, 15vw, 180px)); }
-.logo-motion { width: min(420px, 72vw); height: auto; overflow: visible; cursor: pointer; }
-.logo-motion * { fill: var(--red); }
-.logo-motion .eye { transform-box: fill-box; transform-origin: center; }
-.logo-motion .half, .logo-motion .ltr, .logo-motion g { transform-box: view-box; }
-.logo-motion .half { transform-origin: 492px 440px; }
-.logo-motion g.book { transform-origin: 492px 543px; }
+.logo-motion { display: block; width: min(320px, 60vw); height: auto; cursor: pointer; }   /* 디자인 시스템 모션 SVG */
 
 .about-hero { padding-top: clamp(24px, 5vw, 64px); align-items: baseline; }
 .about-hero__left { text-align: right; font-size: clamp(17px, 1.6vw, 21px); font-weight: 700; line-height: 1.55; letter-spacing: -0.02em; }

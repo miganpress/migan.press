@@ -157,7 +157,6 @@ def data_json(name):
 
 
 LOGO_STATIC = partial("logo_static_svg.html")    # 머리 로고(모션 로고의 마지막 모양)
-LOGO_MOTION = partial("logo_motion_svg.html")    # 소개·영문 페이지의 움직이는 로고
 MOTION_JS = partial("logo_motion_js.html")
 LOGO_HEADER = partial("logo_header_svg.html")    # 머리 로고(국문 세로형, 미간 빨강)
 BLINK_JS = partial("logo_blink_js.html")         # 머리 로고 눈 깜빡임
@@ -795,7 +794,7 @@ def page_about(site, works):
 {lists}
 </section>
 """
-    body = f"""<section class="about-motion" aria-label="미간 로고">{LOGO_MOTION}</section>
+    body = f"""<section class="about-motion"><img class="logo-motion" src="/motion/migan-motion-ko-red.svg" alt="미간 로고" width="879" height="583"></section>
 {MOTION_JS}
 <section class="about-hero split">
 <h1 class="about-hero__left">{e(site.get('about_heading'))}</h1>
@@ -857,7 +856,7 @@ def page_en(site, books):
         author = names_en(b.get("original_author"), short=True)
         items.append(f'<li><cite>{e(title)}</cite><span class="en-books__author">{e(author)}</span></li>')
     books_html = f'<div class="en-block"><h2 class="caps-ko">Forthcoming Titles</h2><ul class="en-books">{"".join(items)}</ul></div>' if items else ""
-    body = f"""<section class="about-motion" aria-label="Migan Press logo">{LOGO_MOTION}</section>
+    body = f"""<section class="about-motion"><img class="logo-motion" src="/motion/migan-motion-en-red.svg" alt="MIGAN logo" width="875" height="564"></section>
 {MOTION_JS}
 <section class="about-hero about-hero--solo">
 <h1 class="visually-hidden">Migan Press</h1>
