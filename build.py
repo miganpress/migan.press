@@ -445,7 +445,7 @@ def kern_brackets(html_text):
 
 def layout(site, *, title, body, current="", description="", image="", path="/", lang="ko"):
     body = kern_brackets(body)
-    full_title = f"{title} | 미간" if title else "미간"   # 검색 결과·링크 미리보기에 뜨는 제목
+    full_title = f"{title} | 미간" if title else "미간 | Migan"   # 검색 결과·링크 미리보기에 뜨는 제목
     if lang == "en":
         full_title = "Migan Press"
     desc = description or site.get("tagline", "").replace("/", " ")
