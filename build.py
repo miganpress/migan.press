@@ -430,12 +430,11 @@ def curly_quotes(t):
 
 
 def kern_brackets(html_text):
-    """「」『』는 글꼴에서 안쪽 반대편에 글자 반 칸 넘는 빈 칸이 붙어 있어, 본문에서만 그 빈 칸을 줄입니다.
+    """본문의 곧은 따옴표를 둥근 따옴표로 바꿉니다; 여는 낫표 「『 앞의 글꼴 빈 칸은 줄이고, 닫는 낫표 」』 뒤는 글꼴 그대로 둡니다.
     태그 안(속성)과 script·style 안은 건드리지 않습니다."""
     parts = re.split(r"(<script.*?</script>|<style.*?</style>|<[^>]+>)", html_text, flags=re.S)
     for i in range(0, len(parts), 2):
         parts[i] = curly_quotes(parts[i])
-        parts[i] = re.sub(r"([」』])", r'<span class="bk-c">\1</span>', parts[i])
         parts[i] = re.sub(r"([「『])", r'<span class="bk-o">\1</span>', parts[i])
     return "".join(parts)
 

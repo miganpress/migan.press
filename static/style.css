@@ -47,9 +47,7 @@ a:hover { color: var(--red); }
 a:focus-visible, button:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
 h1, h2, p, dl, dd, ul { margin: 0; }
 cite { font-style: italic; }
-/* 낫표: 글꼴이 붙여 둔 반대편 빈 칸을 줄임 (build.py kern_brackets) */
-.bk-c { margin-right: -.45em; }
-.bk-o { margin-left: -.45em; }   /* 영문 책 제목 */
+.bk-o { margin-left: -.45em; }   /* 여는 낫표 「『 앞 빈 칸 줄임 (build.py kern_brackets) */
 img { display: block; max-width: 100%; }
 .muted { color: var(--muted); }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
