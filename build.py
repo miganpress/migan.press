@@ -446,7 +446,15 @@ def layout(site, *, title, body, current="", description="", image="", path="/",
     if lang == "en":
         full_title = "Migan Press"
     desc = description or site.get("tagline", "").replace("/", " ")
-    og_image = f'<meta property="og:image" content="{SITE_URL}{e(image)}">\n' if image else ""
+    # 링크 썸네일: 책 표지가 있으면 표지, 없으면 빨강 바탕 로고 이미지(1200×630)
+    if image:
+        og_image = f'<meta property="og:image" content="{SITE_URL}{e(image)}">\n<meta name="twitter:card" content="summary_large_image">\n'
+    else:
+        og = "/og/migan-og-en.png" if lang == "en" else "/og/migan-og-ko.png"
+        og_image = (f'<meta property="og:image" content="{SITE_URL}{og}">\n'
+                    '<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n'
+                    f'<meta property="og:image:alt" content="{"MIGAN logo" if lang == "en" else "미간 로고"}">\n'
+                    '<meta name="twitter:card" content="summary_large_image">\n')
     socials = social_icons(site, lang)
     head_extra = '<meta name="robots" content="noindex">' if path == "/404.html" else f'<link rel="canonical" href="{SITE_URL}{e(path)}">'
     alternates = (
