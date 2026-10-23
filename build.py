@@ -490,7 +490,7 @@ def layout(site, *, title, body, current="", description="", image="", path="/",
 </head>
 <body{' class="is-en"' if lang == 'en' else ''}>
 <header class="site-header">
-<a class="logo" href="{'/en/' if lang == 'en' else '/'}" aria-label="{'Migan Press' if lang == 'en' else '미간 처음으로'}">{LOGO_HEADER}</a>
+<a class="logo" href="/" aria-label="{'Migan Press — Korean homepage' if lang == 'en' else '미간 처음으로'}">{LOGO_HEADER}</a>
 {nav_html}
 </header>
 <main>
