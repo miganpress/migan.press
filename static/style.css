@@ -16,8 +16,8 @@
   --gap: calc(var(--mark) * 0.1866);
   --edge: clamp(24px, 4vw, 48px);
   --section-gap: clamp(96px, 14vw, 200px);
-  --sans: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
-  --caps: 'Montserrat', 'Noto Sans KR', system-ui, sans-serif;
+  --sans: 'Pretendard Variable', Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
+  --caps: 'futura-pt', 'Pretendard Variable', system-ui, sans-serif;
   color-scheme: light;
 }
 @media (max-width: 720px) {
@@ -328,8 +328,8 @@ a.book-row:hover { color: var(--ink); background: var(--lemon); }   /* 책 목�
   .work__title { font-size: 11px; }
 }
 
-/* ── 영문 페이지: Work Sans, 소개글 한 칸을 가운데에 ────── */
-.is-en { --sans: 'Work Sans', 'Noto Sans KR', sans-serif; --caps: 'Work Sans', 'Noto Sans KR', sans-serif; font-family: var(--sans); font-size: 15px; line-height: 1.65; }
+/* ── 영문 페이지: Neue Haas Grotesk(어도비 폰트), 한글은 프리텐다드, 소개글 한 칸을 가운데에 ────── */
+.is-en { --sans: 'neue-haas-grotesk-text', 'Pretendard Variable', sans-serif; --caps: 'futura-pt', 'Pretendard Variable', sans-serif; font-family: var(--sans); font-size: 15px; line-height: 1.65; }
 .is-en .copyright { font-size: 12px; }
 .about-hero--solo { display: block; width: 100%; max-width: 30em; margin-inline: auto; }
 .about-hero--solo .about-hero__right { max-width: none; }

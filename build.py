@@ -494,9 +494,10 @@ def layout(site, *, title, body, current="", description="", image="", path="/",
 <meta property="og:locale" content="{'en_US' if lang == 'en' else 'ko_KR'}">
 {og_image}{head_extra}
 {alternates}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&amp;family=Noto+Sans+KR:wght@400;500;700{'&amp;family=Work+Sans:ital,wght@0,400;0,500;0,600;1,400' if lang == 'en' else ''}&amp;display=swap">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://use.typekit.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://use.typekit.net/vhg0lao.css">
 <link rel="stylesheet" href="/style.css?v={CSS_VER}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 </head>
