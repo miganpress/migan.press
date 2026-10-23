@@ -383,6 +383,7 @@ html { scroll-behavior: smooth; }
    --band-h: 국문 로고 높이. 모든 로고는 같은 배율이라 심벌(눈·책) 크기가 같고, 아랫선(눈 아래)이 맞습니다. */
 .logo-band__defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 .logo-band {
+  contain: paint;
   --band-h: clamp(36px, 4vw, 52px);
   --band-gap: clamp(48px, 7vw, 88px);
   margin-inline: calc(-1 * var(--edge));
@@ -390,10 +391,10 @@ html { scroll-behavior: smooth; }
   background: var(--red);
   overflow: hidden;
 }
-.mg-track { display: flex; width: max-content; animation: mg-scroll 45s linear infinite; }
+.mg-track { display: flex; width: max-content; animation: mg-scroll 45s linear infinite; will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: translate3d(0, 0, 0); }   /* 휴대폰 사파리 깜빡임 방지: 띠를 GPU 레이어로 고정 */
 .logo-band:hover .mg-track { animation-play-state: paused; }
 .mg-set { display: flex; align-items: flex-end; justify-content: space-around; flex: none; min-width: 100vw; }
-@keyframes mg-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes mg-scroll { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
 .mg-it { padding-inline: calc(var(--band-gap) / 2); }
 .mg-it svg { display: block; width: auto; overflow: visible; }
 .mg-ko svg { height: var(--band-h); }
