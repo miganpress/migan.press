@@ -384,8 +384,8 @@ html { scroll-behavior: smooth; }
 .logo-band__defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 .logo-band {
   contain: paint;
-  --band-h: clamp(36px, 4vw, 52px);
-  --band-gap: clamp(48px, 7vw, 88px);
+  --band-h: clamp(36px, 3vw, 40px);
+  --band-gap: clamp(48px, 5vw, 64px);
   margin-inline: calc(-1 * var(--edge));
   padding-block: calc(var(--band-h) * 0.5);
   background: var(--red);
