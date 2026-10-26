@@ -384,14 +384,14 @@ html { scroll-behavior: smooth; }
 .logo-band__defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 .logo-band {
   contain: paint;
-  --band-h: clamp(36px, 3vw, 40px);
-  --band-gap: clamp(40px, 3.5vw, 48px);
+  --band-h: clamp(36px, 3.2vw, 40px);
+  --band-gap: clamp(40px, 4.5vw, 56px);
   margin-inline: calc(-1 * var(--edge));
-  padding-block: calc(var(--band-h) * 0.375);   /* 데스크톱 띠 두께 약 70px */
+  padding-block: calc(var(--band-h) * 0.4375);   /* 데스크톱 띠 두께 약 75px */
   background: var(--red);
   overflow: hidden;
 }
-.mg-track { display: flex; width: max-content; animation: mg-scroll 71s linear infinite; will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: translate3d(0, 0, 0); }   /* 휴대폰 사파리 깜빡임 방지: 띠를 GPU 레이어로 고정 */
+.mg-track { display: flex; width: max-content; animation: mg-scroll 76s linear infinite; will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: translate3d(0, 0, 0); }   /* 휴대폰 사파리 깜빡임 방지: 띠를 GPU 레이어로 고정 */
 .mg-set { display: flex; align-items: flex-end; justify-content: space-around; flex: none; min-width: 100vw; }   /* 한 묶음 18개라 보통 화면보다 넓어 간격이 일정합니다 */
 @keyframes mg-scroll { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
 .mg-it { padding-inline: calc(var(--band-gap) / 2); }
