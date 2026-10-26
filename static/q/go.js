@@ -16,7 +16,7 @@ var GA_ID = "G-ZNCEWNR0QF";
 // QR 자리별 목적지
 var DEST = {
   card:  "https://www.instagram.com/migan.press/",  // 명함
-  mg001: "https://www.instagram.com/migan.press/",  // 『책 공포증』 표3
+  "mg001-bph": "https://www.instagram.com/migan.press/",  // 『책 공포증』 표3
   goods: "https://www.instagram.com/migan.press/"   // 굿즈
 };
 
