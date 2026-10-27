@@ -1,3 +1,14 @@
+<script>
+/* 대표님 기기 제외: miganpress.com/?me=1 로 한 번 접속하면 그 브라우저는 집계하지 않음, ?me=0 으로 해제 */
+(function () {
+  try {
+    var me = new URLSearchParams(location.search).get('me');
+    if (me === '1') localStorage.setItem('migan_me', '1');
+    if (me === '0') localStorage.removeItem('migan_me');
+    if (localStorage.getItem('migan_me') === '1') window['ga-disable-{GA_ID}'] = true;
+  } catch (e) {}
+})();
+</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
 <script>
 window.dataLayer = window.dataLayer || [];

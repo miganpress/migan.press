@@ -93,6 +93,7 @@ img { display: block; max-width: 100%; }
 
 /* ── 꼬리: 아이콘과 저작권을 오른쪽 끝에 두 줄로 ───── */
 .site-footer { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; padding-block: 40px 48px; font-size: 13px; line-height: 1.7; }
+.biz-info { color: #6B655A; font-size: 12px; line-height: 1.7; }
 .site-footer__right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; text-align: right; }
 .social { display: flex; gap: 18px; align-items: center; }
 .social a { display: inline-flex; align-items: center; min-height: 32px; }

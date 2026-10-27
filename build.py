@@ -166,6 +166,9 @@ BLINK_JS = partial("logo_blink_js.html")
 GA_ID = "G-ZNCEWNR0QF"
 DAUM_PIN = "#DaumWebMasterTool:49886e91a149574d39e2614c0c431d23178aa43c5ca8731f009b67d83b33efbd:/Dn1va1+69DmjyIIIsTgww=="
 ANALYTICS = partial("analytics.html").replace("{GA_ID}", GA_ID)
+# 사업자 정보(메타 비즈니스 인증·전자상거래 표시용): 사업자등록증 기준
+BIZ_INFO = "상호 미간 · 대표 최지수 · 사업자등록번호 285-29-02027<br>서울특별시 용산구 녹사평대로46길 34-7(이태원동, 썬트리하우스)"
+BIZ_INFO_EN = "Migan (미간) · Representative: Jisoo Choi · Business Registration No. 285-29-02027<br>서울특별시 용산구 녹사평대로46길 34-7(이태원동, 썬트리하우스), Seoul, Republic of Korea"
 CSS_VER = hashlib.sha1((STATIC / "style.css").read_bytes()).hexdigest()[:8]         # 머리 로고 눈 깜빡임
 EMAIL_JS = partial("email_js.html")              # 이메일 주소 조립
 BOOK_NAV_JS = partial("book_nav_js.html")        # 책 상세 왼쪽 목차: 지금 읽는 구역 표시
@@ -518,6 +521,7 @@ def layout(site, *, title, body, current="", description="", image="", path="/",
 <footer class="site-footer">
 <nav class="social" aria-label="{'Social media' if lang == 'en' else '미간 SNS'}">{socials}</nav>
 <div class="site-footer__right">
+<p class="biz-info">{BIZ_INFO_EN if lang == 'en' else BIZ_INFO}</p>
 <p class="copyright">© Migan Press. All rights reserved.</p>
 </div>
 </footer>
