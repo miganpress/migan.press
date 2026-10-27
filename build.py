@@ -164,6 +164,7 @@ BLINK_JS = partial("logo_blink_js.html")
 # 스타일 파일이 바뀌면 주소 끝 ?v= 값도 바뀌어, 브라우저가 예전 파일을 쓰지 않습니다
 # 구글 애널리틱스: 본 사이트에만 넣고, 미리보기(BASE_PATH)에는 넣지 않습니다
 GA_ID = "G-ZNCEWNR0QF"
+DAUM_PIN = "#DaumWebMasterTool:49886e91a149574d39e2614c0c431d23178aa43c5ca8731f009b67d83b33efbd:/Dn1va1+69DmjyIIIsTgww=="
 ANALYTICS = partial("analytics.html").replace("{GA_ID}", GA_ID)
 CSS_VER = hashlib.sha1((STATIC / "style.css").read_bytes()).hexdigest()[:8]         # 머리 로고 눈 깜빡임
 EMAIL_JS = partial("email_js.html")              # 이메일 주소 조립
@@ -949,7 +950,8 @@ def main():
         (DIST / "sitemap.xml").unlink()
         write(DIST / "robots.txt", "User-agent: *\nDisallow: /\n")
     else:
-        write(DIST / "robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n")
+        # 다음 웹마스터도구 소유확인(PIN) 줄을 함께 둡니다
+        write(DIST / "robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n\n{DAUM_PIN}\n")
     print(f"책 {len(books)}권, 만든 책 {len(works)}권으로 사이트를 만들었습니다 -> {DIST}")
 
 
