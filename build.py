@@ -500,6 +500,7 @@ def layout(site, *, title, body, current="", description="", image="", path="/",
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="https://use.typekit.net/vhg0lao.css">
 <link rel="stylesheet" href="/style.css?v={CSS_VER}">
+<meta name="naver-site-verification" content="d1a5a1baae8ef7aef320843f689eef5201eb0998">
 <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml">
 <link rel="icon" href="/favicon-48.png?v=2" sizes="48x48" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
