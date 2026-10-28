@@ -1,6 +1,6 @@
 <script>
 (function () {
-  /* 머리 로고의 눈: 첫 방문이면 3초 뒤에 한 번, 이후에는 10~20초 사이 무작위 간격으로 가끔 깜빡입니다 */
+  /* 머리 로고의 눈: 첫 방문이면 3초 뒤에 한 번, 이후에는 5~15초 사이 무작위 간격으로 가끔 깜빡입니다 */
   var eyes = [].slice.call(document.querySelectorAll('.logo__full .eye'));
   if (!eyes.length || !eyes[0].animate) return;
   if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -15,7 +15,7 @@
     timer = setTimeout(function () {
       if (!document.hidden) { blink(); if (Math.random() < 0.25) setTimeout(blink, 460); }
       next(false);
-    }, first ? 3000 : 10000 + Math.random() * 10000);
+    }, first ? 3000 : 5000 + Math.random() * 10000);
   }
   var seen = false;
   try { seen = !!sessionStorage.getItem('migan-blink'); sessionStorage.setItem('migan-blink', '1'); } catch (e) {}
