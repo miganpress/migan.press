@@ -91,7 +91,12 @@ img { display: block; max-width: 100%; }
 .site-nav .lang__en { visibility: hidden; font-family: var(--caps); font-size: 13px; font-weight: 600; letter-spacing: .04em; line-height: 1; }
 .site-nav .lang:hover svg, .site-nav .lang:focus-visible svg { visibility: hidden; }
 .site-nav .lang:hover .lang__en, .site-nav .lang:focus-visible .lang__en { visibility: visible; }
-.site-nav .lang-ko { font-size: 14px; }
+.site-nav .lang-ko { font-size: 14px; display: inline-grid; justify-items: center; }
+/* 영문 페이지의 '한국어'에 올리면 같은 자리에 KOR */
+.site-nav .lang-ko > * { grid-area: 1 / 1; }
+.site-nav .lang-ko__en { visibility: hidden; font-family: var(--caps); font-size: 13px; font-weight: 600; letter-spacing: .04em; }
+.site-nav .lang-ko:hover .lang-ko__ko, .site-nav .lang-ko:focus-visible .lang-ko__ko { visibility: hidden; }
+.site-nav .lang-ko:hover .lang-ko__en, .site-nav .lang-ko:focus-visible .lang-ko__en { visibility: visible; }
 @media (max-width: 720px) {
   .site-header { padding-block: 20px; }
   .logo__full { height: 34px; }
