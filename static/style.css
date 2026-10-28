@@ -334,7 +334,8 @@ a.book-row:hover { color: var(--ink); background: var(--lemon); }   /* 책 목�
 .is-en .copyright { font-size: 12px; }
 .about-hero--solo { display: block; width: 100%; max-width: 30em; margin-inline: auto; }
 .about-hero--solo .about-hero__right { max-width: none; }
-.about-hero--solo .prose { text-align: center; }   /* 소개글은 PC·휴대폰 모두 가운데, 목록과 연락처는 왼쪽 */
+.about-hero--solo .prose { text-align: center; }
+.about-hero--solo .prose .ln { display: block; text-wrap: balance; }   /* 시트의 한 줄마다 길이를 고르게: 마지막에 한 단어만 남지 않게 */   /* 소개글은 PC·휴대폰 모두 가운데, 목록과 연락처는 왼쪽 */
 .en-block { margin-top: 44px; display: flex; flex-direction: column; gap: 12px; }   /* Forthcoming Titles, Contact */
 .en-block h2 { margin-bottom: 6px; font-size: 14px; font-weight: 600; line-height: 1.4; letter-spacing: 0.06em; text-transform: uppercase; }
 .en-block .about-contact { margin-top: 0; }

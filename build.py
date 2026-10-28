@@ -33,6 +33,8 @@ SITE_KEYS = {
     "소개 큰 문장": "about_heading",
     "소개 문단": "about_text",
     "영문 소개 문단": "en_text",
+    "푸터 사업자 정보": "footer_ko",      # 칸 안에서 줄을 바꾸면 푸터에서도 줄이 바뀝니다
+    "영문 푸터 사업자 정보": "footer_en",
     "대표 이름": "person_name",
     "대표 소개": "person_bio",
     "대표 링크": "person_links",     # 한 줄에 하나: 이름 | 주소
@@ -340,6 +342,15 @@ def plain(text):
     return re.sub(r"__(.+?)__", r"\1", re.sub(r"\*\*(.+?)\*\*", r"\1", str(text or ""), flags=re.S), flags=re.S)
 
 
+def line_paragraphs(text):
+    """빈 줄은 문단, 칸 안의 줄바꿈은 한 줄씩(span.ln). 줄마다 길이를 고르게 감싸려고 따로 나눕니다(영문 소개)."""
+    blocks = [p.strip() for p in str(text or "").split("\n\n") if p.strip()]
+    return "\n".join(
+        "<p>" + "".join(f'<span class="ln">{rich(l.strip())}</span>' for l in b.split("\n") if l.strip()) + "</p>"
+        for b in blocks
+    )
+
+
 def paragraphs(text):
     blocks = [p.strip() for p in str(text or "").split("\n\n") if p.strip()]
     return "\n".join(f"<p>{rich(p)}</p>" for p in blocks)
@@ -448,6 +459,14 @@ def kern_brackets(html_text):
     return "".join(parts)
 
 
+def footer_biz(site, lang):
+    """푸터 사업자 정보: 시트 '사이트 정보' 탭의 '푸터 사업자 정보'/'영문 푸터 사업자 정보'. 비어 있으면 코드의 기본값."""
+    text = (site.get("footer_en") if lang == "en" else site.get("footer_ko")) or ""
+    if not text.strip():
+        return BIZ_INFO_EN if lang == "en" else BIZ_INFO
+    return "<br>".join(e(line.strip()) for line in text.strip().split("\n") if line.strip())
+
+
 def layout(site, *, title, body, current="", description="", image="", path="/", lang="ko"):
     body = kern_brackets(body)
     full_title = f"{title} | 미간" if title else "미간 | Migan"   # 검색 결과·링크 미리보기에 뜨는 제목
@@ -521,7 +540,7 @@ def layout(site, *, title, body, current="", description="", image="", path="/",
 <footer class="site-footer">
 <nav class="social" aria-label="{'Social media' if lang == 'en' else '미간 SNS'}">{socials}</nav>
 <div class="site-footer__right">
-<p class="biz-info">{BIZ_INFO_EN if lang == 'en' else BIZ_INFO}</p>
+<p class="biz-info">{footer_biz(site, lang)}</p>
 <p class="copyright">© Migan Press. All rights reserved.</p>
 </div>
 </footer>
@@ -893,7 +912,7 @@ def page_en(site, books):
 {MOTION_JS}
 <section class="about-hero about-hero--solo">
 <h1 class="visually-hidden">Migan Press</h1>
-<div class="about-hero__right"><div class="prose">{paragraphs(text)}</div>
+<div class="about-hero__right"><div class="prose">{line_paragraphs(text)}</div>
 {books_html}
 {contact}</div>
 </section>"""
