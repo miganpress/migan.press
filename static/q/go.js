@@ -1,36 +1,15 @@
 /*
- * 미간 QR 리디렉트
- * ------------------------------------------------------------
- * 목적지를 바꾸려면 아래 DEST 표의 주소만 고치면 됩니다.
- * 이미 인쇄된 QR도 다음 접속부터 새 목적지로 갑니다.
- *
- * 새 QR 자리를 추가하려면
- *   1) DEST에 한 줄 추가 (예: tote: "https://...")
- *   2) q/card.html을 복사해 q/tote.html로 저장
- * ------------------------------------------------------------
+ * 미간 QR 리디렉트: 스캔을 구글 애널리틱스에 기록하고 목적지로 넘깁니다.
+ * 목적지는 여기서 정하지 않습니다. 시트 'QR' 탭에서 고친 뒤 '사이트 업데이트'를 누르세요.
+ * (build.py가 시트를 읽어 /q/주소.html 페이지마다 목적지를 넣어 둡니다.)
  */
+var GA_ID = "G-ZNCEWNR0QF"; // build.py와 같은 값
 
-// 구글 애널리틱스 측정 ID (build.py와 같은 값)
-var GA_ID = "G-ZNCEWNR0QF";
-
-// QR 자리별 목적지
-var DEST = {
-  card:  "https://www.instagram.com/migan.press/",  // 명함
-  "mg001-bph": "https://www.instagram.com/migan.press/",  // 『책 공포증』 표3
-  goods: "https://www.instagram.com/migan.press/"   // 굿즈
-};
-
-// 표에 없는 자리로 들어왔을 때 갈 곳
-var FALLBACK = "https://miganpress.com/";
-
-/* ---------- 아래는 고칠 필요 없음 ---------- */
 (function () {
-  var id = (location.pathname.split("/").pop() || "").replace(/\.html$/, "").toLowerCase();
-  var target = DEST[id] || FALLBACK;
-
-  // 자바스크립트가 안 될 때를 위한 링크도 같은 목적지로
   var a = document.getElementById("fallback");
-  if (a) a.href = target;
+  if (!a) return;
+  var id = a.getAttribute("data-qr") || "";
+  var target = a.href;
 
   var done = false;
   function go() {
@@ -41,8 +20,6 @@ var FALLBACK = "https://miganpress.com/";
 
   // GA가 막히거나 늦어도 0.8초 뒤에는 무조건 이동
   setTimeout(go, 800);
-
-  if (!GA_ID || GA_ID.indexOf("XXXX") > -1) { go(); return; }
 
   window.dataLayer = window.dataLayer || [];
   window.gtag = function () { dataLayer.push(arguments); };

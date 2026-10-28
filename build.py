@@ -123,7 +123,7 @@ def load(local_path=None):
         if w.get("title") and is_public(w):
             works.append(w)
     works.sort(key=lambda w: float(w["order"]) if re.fullmatch(r"\d+(\.\d+)?", w.get("order", "")) else 9999)
-    return site, books, works
+    return site, books, works, tabs.get("QR")
 
 
 def drive_download_url(url):
@@ -938,9 +938,73 @@ def write(path, html):
     path.write_text(html, encoding="utf-8")
 
 
+# ---------- QR 리디렉트 (/q/주소) ----------
+# 인쇄물 QR은 miganpress.com/q/주소 를 담고 있습니다. 목적지는 시트 'QR' 탭(주소 | 자리 | 목적지)에서 정합니다.
+# data/qr_registry.json 은 인쇄된 주소 목록입니다. 여기 있는 주소는 시트에서 줄이 지워져도 페이지가 남아
+# 홈페이지 첫 화면으로 넘어갑니다. 시트에 QR 탭이 없으면 이 파일의 목적지를 씁니다.
+QR_REGISTRY = {k: v for k, v in json.loads((ROOT / "data" / "qr_registry.json").read_text(encoding="utf-8")).items()
+               if not k.startswith("_")}
+QR_FALLBACK = SITE_URL + "/"
+
+
+def qr_slug(value):
+    return re.sub(r"[^a-z0-9-]+", "-", (value or "").strip().lower()).strip("-")
+
+
+def load_qr(rows):
+    """{주소: (자리, 목적지)}. 목적지가 잘못되면 빌드를 멈춰, 이전에 배포된 QR이 그대로 남게 합니다."""
+    if rows is None:
+        print("시트에 'QR' 탭이 없어 data/qr_registry.json의 목적지를 씁니다.")
+        return {k: (v.get("자리", ""), v["목적지"]) for k, v in QR_REGISTRY.items()}
+    out = {}
+    for n, row in enumerate(records(rows), 2):
+        slug = qr_slug(row.get("주소"))
+        if not slug:
+            continue
+        dest = (row.get("목적지") or "").strip()
+        if not re.fullmatch(r"https?://\S+", dest):
+            raise SystemExit(f"시트 'QR' 탭 {n}행({slug})의 목적지가 비었거나 https://로 시작하지 않습니다: {dest!r}")
+        if slug in out:
+            raise SystemExit(f"시트 'QR' 탭에 주소 '{slug}'가 두 번 있습니다. 한 줄만 남기세요.")
+        out[slug] = ((row.get("자리") or "").strip(), dest)
+    for slug, info in QR_REGISTRY.items():
+        if slug not in out:
+            print(f"주의: 인쇄된 QR '{slug}'({info.get('자리', '')})가 시트에 없어 홈페이지 첫 화면으로 보냅니다.")
+            out[slug] = (info.get("자리", ""), QR_FALLBACK)
+    for slug in out:
+        if slug not in QR_REGISTRY:
+            print(f"알림: QR '{slug}'는 data/qr_registry.json에 없습니다. 인쇄했다면 목록에 추가하세요.")
+    return out
+
+
+def page_qr(slug, dest):
+    d = e(dest)
+    return f"""<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>미간</title>
+<noscript><meta http-equiv="refresh" content="0;url={d}"></noscript>
+<style>
+  html,body{{margin:0;height:100%;background:#F7F4ED;color:#050000;font-family:Pretendard,-apple-system,BlinkMacSystemFont,sans-serif}}
+  main{{height:100%;display:flex;align-items:center;justify-content:center}}
+  a{{color:#6B655A;font-size:14px;text-decoration:none;border-bottom:1px solid #D9D1C1}}
+</style>
+</head>
+<body>
+<main><a id="fallback" data-qr="{e(slug)}" href="{d}">미간으로 이동 중…</a></main>
+<script src="/q/go.js"></script>
+</body>
+</html>
+"""
+
+
 def main():
     local = sys.argv[2] if len(sys.argv) > 2 and sys.argv[1] == "--local" else None
-    site, books, works = load(local)
+    site, books, works, qr_rows = load(local)
+    qr = load_qr(qr_rows)
     if DIST.exists():
         shutil.rmtree(DIST)
     shutil.copytree(STATIC, DIST)
@@ -961,6 +1025,8 @@ def main():
     write(DIST / "about" / "index.html", page_about(site, works))
     write(DIST / "en" / "index.html", page_en(site, books))
     write(DIST / "404.html", page_404(site))
+    for slug, (_, dest) in qr.items():
+        write(DIST / "q" / f"{slug}.html", page_qr(slug, dest))
     # 검색엔진용: 페이지 목록과 안내 파일
     pages = ["/", "/books/", "/about/", "/en/"] + [f"/books/{b['slug']}/" for b in books]
     urls = "".join(f"<url><loc>{SITE_URL}{p}</loc></url>" for p in pages)
@@ -971,6 +1037,7 @@ def main():
     else:
         # 다음 웹마스터도구 소유확인(PIN) 줄을 함께 둡니다
         write(DIST / "robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n\n{DAUM_PIN}\n")
+    print(f"QR 주소 {len(qr)}개: " + ", ".join(f"{k} → {v[1]}" for k, v in qr.items()))
     print(f"책 {len(books)}권, 만든 책 {len(works)}권으로 사이트를 만들었습니다 -> {DIST}")
 
 

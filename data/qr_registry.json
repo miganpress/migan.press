@@ -1,0 +1,6 @@
+{
+  "_설명": "인쇄된 QR 주소 목록입니다. 여기 있는 주소는 시트 QR 탭에서 줄이 지워져도 사라지지 않고 홈페이지 첫 화면으로 넘어갑니다. 시트에 QR 탭이 없을 때는 아래 목적지를 씁니다. QR을 새로 인쇄했다면 그 주소를 여기에도 추가하세요.",
+  "card": {"자리": "명함", "목적지": "https://www.instagram.com/migan.press/"},
+  "mg001-bph": {"자리": "『책 공포증』 표3", "목적지": "https://www.instagram.com/migan.press/"},
+  "goods": {"자리": "굿즈", "목적지": "https://www.instagram.com/migan.press/"}
+}
