@@ -86,7 +86,8 @@ img { display: block; max-width: 100%; }
 .site-nav .lang { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; margin: -6px -6px -6px 0; }
 .site-nav .lang svg { display: block; }
 /* 지구본에 올리면 같은 자리에 EN (레몬 바탕은 그대로) */
-.site-nav .lang { display: inline-grid; place-items: center; }
+.site-nav .lang { display: inline-grid; place-items: center; width: auto; min-width: 32px; padding-inline: 8px; }   /* ENG 양옆 레몬 여백 */
+.site-nav .lang-ko { padding-inline: 8px; }
 .site-nav .lang > * { grid-area: 1 / 1; }
 .site-nav .lang__en { visibility: hidden; font-family: var(--caps); font-size: 13px; font-weight: 600; letter-spacing: .04em; line-height: 1; }
 .site-nav .lang:hover svg, .site-nav .lang:focus-visible svg { visibility: hidden; }
