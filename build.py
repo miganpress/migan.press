@@ -496,7 +496,7 @@ def layout(site, *, title, body, current="", description="", image="", path="/",
         nav_html = f"""<nav class="site-nav" aria-label="주 메뉴">
 {nav_link('/books/', '책', 'books')}
 {nav_link('/about/', '소개', 'about')}
-<a class="lang" href="/en/" aria-label="English" title="English"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.25"/><ellipse cx="12" cy="12" rx="4" ry="9.25"/><path d="M2.75 12h18.5M4.2 7.2h15.6M4.2 16.8h15.6"/></svg></a>
+<a class="lang" href="/en/" aria-label="English"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.25"/><ellipse cx="12" cy="12" rx="4" ry="9.25"/><path d="M2.75 12h18.5M4.2 7.2h15.6M4.2 16.8h15.6"/></svg><span class="lang__en" aria-hidden="true">EN</span></a>
 </nav>"""
 
     return f"""<!doctype html>
