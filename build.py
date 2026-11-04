@@ -96,10 +96,9 @@ def load(local_path=None):
 
     site = {}
     for row in tabs["사이트 정보"][1:]:
-        # 내용은 B칸에 쓰지만, 다른 칸에 적어도 항목 오른쪽의 첫 번째 빈칸 아닌 칸을 씁니다
-        if row and row[0].strip() in SITE_KEYS:
-            value = next((c.strip() for c in row[1:] if c and c.strip()), "")
-            site[SITE_KEYS[row[0].strip()]] = value
+        # 내용은 B칸만 읽습니다. B칸을 비우고 다른 칸으로 옮기면 사이트에서 숨겨집니다
+        if len(row) >= 2 and row[0].strip() in SITE_KEYS:
+            site[SITE_KEYS[row[0].strip()]] = row[1].strip()
 
     books = []
     for row in records(tabs["출간 도서"]):
