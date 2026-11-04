@@ -25,7 +25,7 @@ ROOT = Path(__file__).parent
 STATIC = ROOT / "static"
 DIST = ROOT / "dist"
 SITE_URL = "https://miganpress.com"
-SHEET_ID = os.environ.get("SHEET_ID", "1OJ-63umjkmWIJITMQwiwXcVU7wcFpFSMmSTBzhElDOg")
+SHEET_ID = os.environ.get("SHEET_ID", "1vugkuTH8tv8SSRp1M2wqYNPN3juU9Jelspewtxh1Bnk")   # 미간 계정(migan@miganpress.com)의 시트
 
 # 시트 '사이트 정보' 탭의 항목 이름 → 코드에서 쓰는 이름
 SITE_KEYS = {
@@ -96,8 +96,10 @@ def load(local_path=None):
 
     site = {}
     for row in tabs["사이트 정보"][1:]:
-        if len(row) >= 2 and row[0].strip() in SITE_KEYS:
-            site[SITE_KEYS[row[0].strip()]] = row[1].strip()
+        # 내용은 B칸에 쓰지만, 다른 칸에 적어도 항목 오른쪽의 첫 번째 빈칸 아닌 칸을 씁니다
+        if row and row[0].strip() in SITE_KEYS:
+            value = next((c.strip() for c in row[1:] if c and c.strip()), "")
+            site[SITE_KEYS[row[0].strip()]] = value
 
     books = []
     for row in records(tabs["출간 도서"]):
