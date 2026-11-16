@@ -126,11 +126,10 @@ img { display: block; max-width: 100%; }
   max-width: 100%;
   padding: 8%;
   background: var(--lemon);   /* 글자 표지(아직 표지 이미지가 없는 책) */
-  color: var(--on-accent);
-  color: var(--ink);
+  color: var(--on-accent);   /* 그 위 글자: migan-white */
   border: 1px solid var(--lemon);
 }
-.cover:hover { color: var(--ink); }
+.cover:hover { color: var(--on-accent); }
 .cover--dark { background: var(--red); color: var(--on-accent); border-color: var(--red); }
 .cover--dark:hover { color: var(--on-accent); }
 .cover--next { background: var(--lemon); border-color: var(--lemon); }
