@@ -1,0 +1,77 @@
+<script>
+(function () {
+  /* 첫 화면 책 넘기기: 양옆에 이웃 책이 살짝 보이고, 그 책을 누르거나 밀어서 넘깁니다(저절로 넘어가지 않음). 끝과 처음이 이어집니다. */
+  var box = document.querySelector('.carousel');
+  if (!box) return;
+  var track = box.querySelector('.carousel__track');
+  var real = Array.prototype.slice.call(track.querySelectorAll('.carousel__slide'));
+  var n = real.length;
+  if (n < 2) return;
+  /* 처음 앞에는 마지막 책, 마지막 뒤에는 첫 책을 하나씩 더 놓아 양옆이 늘 보이게 */
+  function clone(s) {
+    var c = s.cloneNode(true);
+    c.classList.add('is-clone');
+    c.removeAttribute('aria-labelledby');
+    c.querySelectorAll('[id]').forEach(function (x) { x.removeAttribute('id'); });
+    c.setAttribute('aria-hidden', 'true');
+    c.querySelectorAll('a').forEach(function (a) { a.tabIndex = -1; });
+    return c;
+  }
+  track.insertBefore(clone(real[n - 1]), real[0]);
+  track.appendChild(clone(real[0]));
+  var slides = Array.prototype.slice.call(track.querySelectorAll('.carousel__slide'));   /* 0: 앞 복제, 1..n: 진짜, n+1: 뒤 복제 */
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function left(k) { var s = slides[k]; return s.offsetLeft - (track.clientWidth - s.clientWidth) / 2; }
+  function nearest() {
+    var best = 0, d = Infinity;
+    slides.forEach(function (s, k) { var x = Math.abs(left(k) - track.scrollLeft); if (x < d) { d = x; best = k; } });
+    return best;
+  }
+  function go(k, smooth) { track.scrollTo({ left: left(k), behavior: smooth && !reduce ? 'smooth' : 'auto' }); }
+  var cur = 1;
+  function settle() {
+    var k = nearest();
+    if (k === 0) { k = n; go(k, false); }            /* 앞 복제에 멈추면 진짜 마지막 책으로 */
+    else if (k === n + 1) { k = 1; go(k, false); }   /* 뒤 복제에 멈추면 진짜 첫 책으로 */
+    cur = k;
+    slides.forEach(function (s, j) {
+      var on = j === k;
+      s.classList.toggle('is-current', on);
+      if (!s.classList.contains('is-clone')) {
+        s.setAttribute('aria-hidden', on ? 'false' : 'true');
+        s.querySelectorAll('a').forEach(function (a) { a.tabIndex = on ? 0 : -1; });
+      }
+    });
+  }
+  var t;
+  track.addEventListener('scroll', function () { clearTimeout(t); t = setTimeout(settle, 90); }, { passive: true });
+  window.addEventListener('resize', function () { go(cur, false); });
+  /* 옆에 살짝 보이는 책을 누르면 그쪽으로 한 권 넘깁니다 */
+  slides.forEach(function (s, k) {
+    s.addEventListener('click', function (ev) {
+      if (k !== cur) { ev.preventDefault(); ev.stopPropagation(); go(k, true); }
+    }, true);
+  });
+  /* 양옆 화살표 < > : 표지 높이 가운데에 */
+  var prevBtn = box.querySelector('.carousel__arrow--prev');
+  var nextBtn = box.querySelector('.carousel__arrow--next');
+  prevBtn.addEventListener('click', function () { go(cur - 1, true); });
+  nextBtn.addEventListener('click', function () { go(cur + 1, true); });
+  function placeArrows() {
+    var c = slides[cur].querySelector('.cover');
+    if (!c) return;
+    var y = c.getBoundingClientRect().top - box.getBoundingClientRect().top + c.offsetHeight / 2;
+    prevBtn.style.top = nextBtn.style.top = y + 'px';
+  }
+  window.addEventListener('resize', placeArrows);
+  box.addEventListener('keydown', function (ev) {
+    if (ev.key === 'ArrowLeft') { ev.preventDefault(); go(cur - 1, true); }
+    if (ev.key === 'ArrowRight') { ev.preventDefault(); go(cur + 1, true); }
+  });
+  /* 처음에는 '다음에 나올 책'이 가운데 */
+  cur = (Number(box.getAttribute('data-start')) || 0) + 1;
+  go(cur, false);
+  settle();
+  placeArrows();
+})();
+</script>

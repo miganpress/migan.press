@@ -171,6 +171,7 @@ DAUM_PIN = "#DaumWebMasterTool:49886e91a149574d39e2614c0c431d23178aa43c5ca8731f0
 ANALYTICS = partial("analytics.html").replace("{GA_ID}", GA_ID)
 CSS_VER = hashlib.sha1((STATIC / "style.css").read_bytes()).hexdigest()[:8]         # 머리 로고 눈 깜빡임
 EMAIL_JS = partial("email_js.html")              # 이메일 주소 조립
+CAROUSEL_JS = partial("carousel_js.html")        # 첫 화면 책 넘기기
 BOOK_NAV_JS = partial("book_nav_js.html")        # 책 상세 왼쪽 목차: 지금 읽는 구역 표시
 WORK_CATEGORIES = data_json("work_categories.json")   # 만든 책 제목 → 분야
 WORK_COVERS = data_json("work_covers.json")           # 만든 책 제목 → 표지 파일
@@ -571,24 +572,36 @@ def next_book(books):
     return upcoming[0] if upcoming else (published[0] if published else None)
 
 
-def page_home(site, books):
-    feature = next_book(books)
-
-    feature_html = ""
-    if feature:
-        upcoming_book = feature.get("status") != "published"
-        label = "출간 예정 도서" if upcoming_book else "새로 나온 책"
-        when = fmt_date(feature.get("pub_date")) + (" 출간 예정" if upcoming_book else " 출간")
-        feature_html = f"""<section class="feature split" aria-labelledby="feature-title">
-<div class="feature__cover">{cover(feature, 'l', dark=True)}</div>
+def feature_slide(book, n):
+    upcoming_book = book.get("status") != "published"
+    when = fmt_date(book.get("pub_date")) + (" 출간 예정" if upcoming_book else " 출간")
+    tid = f"feature-title-{n}"
+    return f"""<div class="feature split carousel__slide" role="group" aria-roledescription="slide" aria-labelledby="{tid}">
+<div class="feature__cover">{cover(book, 'l', dark=True)}</div>
 <div class="feature__text">
 <p class="feature__when muted">{e(when)}</p>
-<h2 id="feature-title"><a href="/books/{e(feature['slug'])}/">{e(feature['title'])}</a></h2>
-<p>{e(credit(feature, short=True))}</p>
-<div class="feature__tagline prose">{paragraphs(feature.get('tagline') or feature.get('short'))}</div>
-<a class="more" href="/books/{e(feature['slug'])}/">자세히 보기</a>
+<h2 id="{tid}"><a href="/books/{e(book['slug'])}/">{e(book['title'])}</a></h2>
+<p>{e(credit(book, short=True))}</p>
+<div class="feature__tagline prose">{paragraphs(book.get('tagline') or book.get('short'))}</div>
+<a class="more" href="/books/{e(book['slug'])}/">자세히 보기</a>
 </div>
-</section>"""
+</div>"""
+
+
+def page_home(site, books):
+    # 첫 화면 맨 위: 출간 도서를 옆으로 넘겨 보는 자리. 처음에는 '다음에 나올 책'이 보입니다
+    feature = next_book(books)
+    feature_html = ""
+    if books:
+        start = books.index(feature) if feature in books else 0
+        slides = "\n".join(feature_slide(b, k) for k, b in enumerate(books, 1))
+        feature_html = f"""<section class="carousel" aria-roledescription="carousel" aria-label="미간의 책 (양옆 책을 누르거나 밀어서 넘기기)" data-start="{start}" tabindex="0">
+<div class="carousel__track">
+{slides}
+</div>
+{'<button type="button" class="carousel__arrow carousel__arrow--prev" aria-label="이전 책"><span aria-hidden="true">&lt;</span></button><button type="button" class="carousel__arrow carousel__arrow--next" aria-label="다음 책"><span aria-hidden="true">&gt;</span></button>' if len(books) > 1 else ''}
+</section>
+{CAROUSEL_JS if len(books) > 1 else ""}"""
 
     cards = "\n".join(cover_card(b, "s") for b in books)
     body = f"""<h1 class="visually-hidden">미간 MIGAN</h1>

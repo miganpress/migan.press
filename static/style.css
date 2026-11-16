@@ -450,3 +450,38 @@ html { scroll-behavior: smooth; }
 }
 @media (max-width: 640px) { .mg-track { animation-duration: 66s; } .logo-band { padding-block: calc(var(--band-h) * 0.5); } }
 @media (prefers-reduced-motion: reduce) { .mg-track, .mg-it .e { animation: none; } }
+
+/* 첫 화면 책 넘기기(carousel): 화살표·밀기·←→ 키로만 넘어갑니다 */
+.carousel { position: relative; outline: none; --peek: clamp(28px, 7vw, 120px); --slide-gap: clamp(16px, 3vw, 56px); --slide-w: min(940px, calc(100vw - 2 * (var(--edge) + var(--peek)))); }
+.carousel__track {
+  display: flex;
+  gap: var(--slide-gap);
+  margin-inline: calc(-1 * var(--edge));            /* 화면 끝까지 */
+  padding-inline: calc((100vw - var(--slide-w)) / 2);  /* 가운데 책 양옆으로 이웃 책이 살짝 보임 */
+  scroll-padding-inline: calc((100vw - var(--slide-w)) / 2);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+.carousel__track::-webkit-scrollbar { display: none; }
+.carousel__slide { flex: 0 0 var(--slide-w); min-width: 0; scroll-snap-align: center; scroll-snap-stop: always; transition: opacity .3s ease; }
+.carousel__slide:not(.is-current) { opacity: .35; cursor: pointer; }
+.carousel__slide:not(.is-current):hover { opacity: .6; }
+.carousel__slide:not(.is-current) a { pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .carousel__slide { transition: none; } }
+.carousel .feature__cover { justify-self: start; }   /* 표지를 왼쪽에 붙여 옆 책의 표지가 살짝 보이게 */
+.carousel .feature { padding-top: 0; align-content: start; }   /* 휴대폰: 책마다 표지 윗선이 같게 */
+.carousel__track { align-items: flex-start; }
+.carousel__arrow {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+  width: 44px; height: 44px; padding: 0;
+  display: grid; place-items: center;
+  border: 0; border-radius: 0; background: none; color: var(--ink);
+  font-family: var(--caps); font-size: 28px; font-weight: 400; line-height: 1;
+  cursor: pointer;
+}
+.carousel__arrow--prev { left: calc(-1 * var(--edge) + 4px); }
+.carousel__arrow--next { right: calc(-1 * var(--edge) + 4px); }
+.carousel__arrow:hover, .carousel__arrow:focus-visible { background: var(--lemon); color: var(--on-accent); }
+.carousel { padding-top: clamp(24px, 5vw, 64px); }
