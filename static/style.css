@@ -44,7 +44,7 @@ body {
 main { flex: 1; display: flex; flex-direction: column; gap: var(--section-gap); padding-bottom: clamp(96px, 12vw, 160px); }
 .site-header, main, .site-footer { width: 100%; max-width: 1200px; margin-inline: auto; }
 a { color: inherit; text-decoration: none; }
-a:hover { color: var(--on-accent); background: var(--lemon); }   /* 링크에 올리면 레몬 바탕 */
+a:hover { color: var(--on-accent); background: var(--lemon); }   /* 링크에 올리면 migan-red-shade 바탕 */
 a:focus-visible, button:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
 h1, h2, p, dl, dd, ul { margin: 0; }
 cite { font-style: italic; }
@@ -208,7 +208,7 @@ a.cover:not(.cover--image):hover { background: var(--lemon); border-color: var(-
 .book-list { display: flex; flex-direction: column; }
 .book-row { padding-block: 20px; border-top: 1px solid var(--hair); align-items: center; }
 .book-row:last-child { border-bottom: 1px solid var(--hair); }
-a.book-row:hover { color: var(--on-accent); background: var(--lemon); }   /* 책 목록: 글자색 대신 레몬 바탕 */
+a.book-row:hover { color: var(--on-accent); background: var(--lemon); }   /* 책 목록: 올리면 migan-red-shade 바탕 */
 .book-row__title { display: flex; align-items: center; justify-content: flex-end; min-height: 2.8em; text-align: right; font-size: clamp(18px, 2vw, 22px); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
 .book-row__meta { display: flex; flex-direction: column; font-size: 14px; line-height: 1.6; }
 /* 휴대폰: 제목 글자의 윗선을 오른쪽 글자의 윗선에 맞추고, 지은이·옮긴이는 줄을 나눔 */
