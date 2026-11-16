@@ -125,17 +125,17 @@ img { display: block; max-width: 100%; }
   width: 100%;
   max-width: 100%;
   padding: 8%;
-  background: var(--lemon);   /* 글자 표지(아직 표지 이미지가 없는 책) */
+  background: var(--red);   /* 글자 표지(아직 표지 이미지가 없는 책): migan-red */
   color: var(--on-accent);   /* 그 위 글자: migan-white */
-  border: 1px solid var(--lemon);
+  border: 1px solid var(--red);
 }
 .cover:hover { color: var(--on-accent); }
 .cover--dark { background: var(--red); color: var(--on-accent); border-color: var(--red); }
 .cover--dark:hover { color: var(--on-accent); }
-.cover--next { background: var(--lemon); border-color: var(--lemon); }
-/* 누를 수 있는 글자 표지: 마우스를 올리면 미간 빨강 */
+.cover--next { background: var(--red); border-color: var(--red); }
+/* 누를 수 있는 글자 표지: 마우스를 올리면 migan-red-shade */
 a.cover--image:hover { background: none; }
-a.cover:not(.cover--image):hover { background: var(--red); border-color: var(--red); color: var(--on-accent); }
+a.cover:not(.cover--image):hover { background: var(--lemon); border-color: var(--lemon); color: var(--on-accent); }
 @media (prefers-reduced-motion: no-preference) {
   a.cover { transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease; }
 }
