@@ -44,7 +44,7 @@ body {
 main { flex: 1; display: flex; flex-direction: column; gap: var(--section-gap); padding-bottom: clamp(96px, 12vw, 160px); }
 .site-header, main, .site-footer { width: 100%; max-width: 1200px; margin-inline: auto; }
 a { color: inherit; text-decoration: none; }
-a:hover { color: var(--on-accent); background: var(--lemon); }   /* 링크에 올리면 migan-red-shade 바탕 */
+a:hover { color: var(--on-accent); background: var(--red); }   /* 링크·메뉴에 올리면 migan-red 바탕, 글자 migan-white */
 a:focus-visible, button:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
 h1, h2, p, dl, dd, ul { margin: 0; }
 cite { font-style: italic; }
@@ -133,7 +133,7 @@ img { display: block; max-width: 100%; }
 .cover--dark { background: var(--red); color: var(--on-accent); border-color: var(--red); }
 .cover--dark:hover { color: var(--on-accent); }
 .cover--next { background: var(--red); border-color: var(--red); }
-/* 누를 수 있는 글자 표지: 마우스를 올리면 migan-red-shade */
+/* 누를 수 있는 글자 표지: 마우스를 올리면 migan-red-shade (표지만 shade, 나머지 올림은 migan-red) */
 a.cover--image:hover { background: none; }
 a.cover:not(.cover--image):hover { background: var(--lemon); border-color: var(--lemon); color: var(--on-accent); }
 @media (prefers-reduced-motion: no-preference) {
@@ -195,7 +195,7 @@ a.cover:not(.cover--image):hover { background: var(--lemon); border-color: var(-
 .view-toggle { display: flex; gap: 6px; margin-right: -12px; }
 .view-toggle button { display: inline-flex; align-items: center; justify-content: center; width: 44px; min-height: 44px; padding: 0; border: 0; background: none; font: inherit; font-size: 15px; color: var(--hair); cursor: pointer; }
 .view-toggle button[aria-pressed="true"] { color: var(--ink); font-weight: 700; }
-.view-toggle button:hover { color: var(--muted); }
+.view-toggle button:hover { color: var(--on-accent); background: var(--red); }
 .view-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; }
 .books[data-current="grid"] .book-list { display: none; }
 .books[data-current="list"] .book-grid { display: none; }
@@ -208,7 +208,7 @@ a.cover:not(.cover--image):hover { background: var(--lemon); border-color: var(-
 .book-list { display: flex; flex-direction: column; }
 .book-row { padding-block: 20px; border-top: 1px solid var(--hair); align-items: center; }
 .book-row:last-child { border-bottom: 1px solid var(--hair); }
-a.book-row:hover { color: var(--on-accent); background: var(--lemon); }   /* 책 목록: 올리면 migan-red-shade 바탕 */
+a.book-row:hover { color: var(--on-accent); background: var(--red); }   /* 책 목록: 올리면 migan-red 바탕 */
 .book-row__title { display: flex; align-items: center; justify-content: flex-end; min-height: 2.8em; text-align: right; font-size: clamp(18px, 2vw, 22px); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
 .book-row__meta { display: flex; flex-direction: column; font-size: 14px; line-height: 1.6; }
 /* 휴대폰: 제목 글자의 윗선을 오른쪽 글자의 윗선에 맞추고, 지은이·옮긴이는 줄을 나눔 */
@@ -372,7 +372,7 @@ html { scroll-behavior: smooth; }
 .book-nav { position: sticky; top: 32px; margin-top: 44px; }
 .book-nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.5; }
 .book-nav a { color: var(--ink); font-weight: 700; }
-.book-nav a:hover { color: var(--on-accent); background: var(--lemon); }
+.book-nav a:hover { color: var(--on-accent); background: var(--red); }
 @media (max-width: 720px) {
   .book__meta { align-self: start; }
   .book-nav { display: none; }   /* 휴대폰은 한 줄로 쌓여 목차 없이 읽어 내려가요 */
