@@ -82,12 +82,14 @@ img { display: block; max-width: 100%; }
 .logo:hover { color: var(--red); background: none; }
 .logo__full { display: block; height: 40px; width: auto; }
 .logo__full .eye { transform-box: fill-box; transform-origin: center; }   /* 깜빡임 */
-.site-nav { display: flex; align-items: center; gap: 28px; font-weight: 500; font-size: 15px; }
+.site-nav { display: flex; align-items: center; gap: 12px; font-weight: 500; font-size: 15px; }
+.site-nav > a { min-width: 46px; }
+.site-nav > a:not(.lang):not(.lang-ko) { display: inline-flex; align-items: center; justify-content: center; height: 32px; padding-inline: 8px; margin-block: -6px; }   /* 책·소개: 올렸을 때 빨강 바탕을 ENG와 같은 크기로 */
 .site-nav a[aria-current="page"] { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 2px; text-decoration-color: var(--red); }
 .site-nav .lang { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; margin: -6px -6px -6px 0; }
 .site-nav .lang svg { display: block; }
 /* 지구본에 올리면 같은 자리에 EN (레몬 바탕은 그대로) */
-.site-nav .lang { display: inline-grid; place-items: center; width: auto; min-width: 32px; padding-inline: 8px; }   /* ENG 양옆 레몬 여백 */
+.site-nav .lang { display: inline-grid; place-items: center; width: auto; min-width: 46px; padding-inline: 8px; }   /* ENG 양옆 레몬 여백 */
 .site-nav .lang-ko { padding-inline: 8px; height: 32px; align-items: center; margin-block: -6px; }   /* KOR 레몬 바탕: ENG와 같은 높이 */
 .site-nav .lang > * { grid-area: 1 / 1; }
 .site-nav .lang__en { visibility: hidden; font-family: var(--caps); font-size: 13px; font-weight: 600; letter-spacing: .04em; line-height: 1; }
@@ -209,6 +211,7 @@ a.cover:not(.cover--image):hover { background: var(--lemon); border-color: var(-
 .book-row { padding-block: 20px; border-top: 1px solid var(--hair); align-items: center; }
 .book-row:last-child { border-bottom: 1px solid var(--hair); }
 a.book-row:hover { color: var(--on-accent); background: var(--red); }   /* 책 목록: 올리면 migan-red 바탕 */
+a.book-row:hover .muted, a:hover .muted { color: inherit; }   /* 출간 예정일 등 보조 글자도 올리면 migan-white */
 .book-row__title { display: flex; align-items: center; justify-content: flex-end; min-height: 2.8em; text-align: right; font-size: clamp(18px, 2vw, 22px); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
 .book-row__meta { display: flex; flex-direction: column; font-size: 14px; line-height: 1.6; }
 /* 휴대폰: 제목 글자의 윗선을 오른쪽 글자의 윗선에 맞추고, 지은이·옮긴이는 줄을 나눔 */
