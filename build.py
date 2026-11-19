@@ -318,23 +318,31 @@ def praise_html(text):
     return "\n".join(items)
 
 
+def attach_end(html, btn):
+    """문단 끝에 버튼을 붙이되, 마지막 낱말과 한 덩어리로 묶어 버튼만 다음 줄로 떨어지지 않게 합니다."""
+    k = html.rfind("</p>")
+    if k == -1:
+        return html + btn
+    body = html[:k]
+    head, sep, last = body.rpartition(" ")
+    if sep and last and "<" not in last and ">" not in last:
+        body = f'{head} <span class="nowrap">{last}{btn}</span>'
+    else:
+        body = body + btn
+    return body + html[k:]
+
+
 def intro_html(book):
     """짧은 소개와 긴 소개를 함께 씁니다.
-    둘 다 있으면 짧은 소개 끝에 '더 읽기'를 붙이고, 누르면 짧은 소개 자리가 긴 소개로 바뀝니다.
+    둘 다 있으면 짧은 소개 끝에 (+)를 붙이고, 누르면 그 자리가 긴 소개로 바뀝니다. 긴 소개 끝 (−)로 다시 접어요.
     하나만 있으면 그것을 그대로 보여 줍니다."""
     short, long_ = book.get("short"), book.get("description")
     if short and long_:
-        s_html = paragraphs(short)
-        k = s_html.rfind("</p>")
-        btn = ' <button type="button" class="read-more" aria-expanded="false" aria-controls="intro-long" aria-label="책 소개 더 읽기"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M10 5.5v9M5.5 10h9"/></svg></button>'
-        s_html = s_html[:k] + btn + s_html[k:] if k != -1 else s_html + btn
-        l_html = paragraphs(long_)
-        k = l_html.rfind("</p>")
+        more = ' <button type="button" class="read-more" aria-expanded="false" aria-controls="intro-long" aria-label="책 소개 더 읽기"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M10 5.5v9M5.5 10h9"/></svg></button>'
         less = ' <button type="button" class="read-more read-less" aria-controls="intro-long" aria-label="책 소개 접기"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M5.5 10h9"/></svg></button>'
-        l_html = l_html[:k] + less + l_html[k:] if k != -1 else l_html + less
         return (
-            f'<div class="intro-short">{s_html}</div>\n'
-            f'<div class="intro-long" id="intro-long" hidden>{l_html}</div>\n'
+            f'<div class="intro-short">{attach_end(paragraphs(short), more)}</div>\n'
+            f'<div class="intro-long" id="intro-long" hidden>{attach_end(paragraphs(long_), less)}</div>\n'
             + READ_MORE_JS
         )
     return paragraphs(short or long_)
@@ -400,7 +408,7 @@ def cover(book, size="m", link=True, dark=False):
     글자 표지 안에는 제목·지은이·옮긴이와, 오른쪽 위에 출간 연도가 들어갑니다."""
     year = str(book.get("pub_date") or "")[:4]
     if book.get("cover"):
-        body = f'<img src="{e(book["cover"])}" alt="" loading="lazy">'
+        body = f'<img src="{e(book["cover"])}" alt="『{e(book["title"])}』 표지" loading="lazy">'
         cls = f"cover cover--{size} cover--image"
     else:
         credit_lines = "".join(f"<span>{e(x)}</span>" for x in credit_parts(book, short=True))
@@ -629,10 +637,10 @@ def page_home(site, books):
         feature_html = f"""<section class="feature split" aria-labelledby="feature-title">
 <div class="feature__cover">{cover(feature, 'l', dark=True)}</div>
 <div class="feature__text">
-<p class="feature__when muted">{e(when)}</p>
+{f'<p class="feature__when muted">{e(when)}</p>' if upcoming_book else ''}
 <h2 id="feature-title"><a href="/books/{e(feature['slug'])}/">{e(feature['title'])}</a></h2>
 <p>{e(credit(feature, short=True))}</p>
-<div class="feature__tagline prose">{paragraphs(feature.get('tagline') or feature.get('short'))}</div>
+<div class="feature__tagline prose">{line_paragraphs(feature.get('tagline') or feature.get('short'))}</div>
 <a class="more" href="/books/{e(feature['slug'])}/">자세히 보기</a>
 </div>
 </section>"""
@@ -641,12 +649,13 @@ def page_home(site, books):
     body = f"""<h1 class="visually-hidden">미간 MIGAN</h1>
 {feature_html}
 <section class="shelf" aria-labelledby="shelf-title">
-<div class="shelf-head"><h2 id="shelf-title">미간에서 나올 책</h2><a class="more" href="/books/">모두 보기</a></div>
+<div class="shelf-head"><h2 id="shelf-title">미간의 책</h2><a class="more" href="/books/">모두 보기</a></div>
 <div class="book-grid book-grid--5">
 {cards}
 </div>
 </section>"""
-    return layout(site, title="", body=body, path="/")
+    home_desc = " ".join(x for x in (site.get("about_heading", ""), plain(site.get("about_text", ""))) if x).strip()
+    return layout(site, title="", body=body, path="/", description=home_desc)
 
 
 def page_books(site, books):
@@ -688,6 +697,13 @@ def download_href(url):
     return drive_download_url(url)
 
 
+def dl_name(book, label, href):
+    """내려받을 때 저장되는 이름: 미간_책 제목_보도자료.pdf (확장자는 파일 그대로)"""
+    ext = os.path.splitext(href.split("?")[0])[1] or ""
+    kind = "보도자료" if label == "보도자료" else "표지"
+    return f"미간_{book['title']}_{kind}{ext}"
+
+
 def downloads_html(book):
     """관련 자료 받기: 보도자료와 표지 파일. 시트에 링크가 있는 것만 보여 줍니다."""
     items = []
@@ -708,7 +724,7 @@ def downloads_html(book):
     if not items:
         return ""
     links = "".join(
-        f'<li><a href="{e(href)}" download target="_blank" rel="noopener" data-ga="download" data-item="{label}" data-book="{e(book["title"])}">{label}<span aria-hidden="true"> ↓</span></a></li>'
+        f'<li><a href="{e(href)}" download="{e(dl_name(book, label, href))}" target="_blank" rel="noopener" data-ga="download" data-item="{label}" data-book="{e(book["title"])}">{label}<span aria-hidden="true"> ↓</span></a></li>'
         for label, href in items
     )
     return f'<div class="downloads" id="downloads"><ul>{links}</ul></div>'
@@ -821,7 +837,7 @@ def page_book(site, books, i):
 </nav>"""
     page_title = book["title"] + (f" | {names_ko(book['author'])} 지음" if book.get("author") else "")
     return layout(site, title=page_title, body=body, current="books",
-                  description=plain(book.get("short") or book.get("tagline", "")), image=book.get("cover", ""),
+                  description=plain(book.get("tagline") or book.get("short", "")), image=book.get("cover", ""),
                   path=f"/books/{book['slug']}/")
 
 
@@ -966,7 +982,7 @@ def page_en(site, books):
             continue
         author = names_en(b.get("original_author"), short=True)
         items.append(f'<li><cite>{e(title)}</cite><span class="en-books__author">{e(author)}</span></li>')
-    books_html = f'<div class="en-block"><h2 class="caps-ko">Forthcoming Titles</h2><ul class="en-books">{"".join(items)}</ul></div>' if items else ""
+    books_html = f'<div class="en-block"><h2 class="caps-ko">Titles</h2><ul class="en-books">{"".join(items)}</ul></div>' if items else ""
     body = f"""<section class="about-motion"><img class="logo-motion" src="/motion/migan-motion-en-red.svg" alt="MIGAN logo" width="875" height="564"></section>
 {MOTION_JS}
 <section class="about-hero about-hero--solo">

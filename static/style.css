@@ -476,3 +476,5 @@ html { scroll-behavior: smooth; }
 .stores { display: flex; flex-wrap: wrap; gap: 4px 14px; }
 .stores a { display: inline-flex; align-items: baseline; gap: 2px; }   /* 밑줄은 .meta a의 한 줄만 */
 .stores a span { font-size: .8em; }
+.nowrap { white-space: nowrap; }
+.feature__tagline .ln { display: block; text-wrap: balance; }   /* 태그라인 줄마다 길이를 고르게 */
