@@ -692,7 +692,7 @@ def downloads_html(book):
         f'<li><a href="{e(href)}" download target="_blank" rel="noopener" data-ga="download" data-item="{label}" data-book="{e(book["title"])}">{label}<span aria-hidden="true"> ↓</span></a></li>'
         for label, href in items
     )
-    return f'<div class="downloads" id="downloads"><p class="caps-ko">관련 자료 받기</p><ul>{links}</ul></div>'
+    return f'<div class="downloads" id="downloads"><ul>{links}</ul></div>'
 
 
 def fmt_size(v):
@@ -760,8 +760,6 @@ def page_book(site, books, i):
     sections = [x for x in sections if x[2].strip()]
     sections_html = "\n".join(book_section(t, inner, cls, sid) for sid, t, inner, cls in sections)
     nav_items = [("intro", "책 소개")] + [(sid, t) for sid, t, _, _ in sections]
-    if downloads:
-        nav_items.append(("downloads", "관련 자료 받기"))
     section_nav = (
         '<nav class="book-nav" aria-label="이 책의 구역"><ul>'
         + "".join(f'<li><a href="#{sid}">{t}</a></li>' for sid, t in nav_items)
