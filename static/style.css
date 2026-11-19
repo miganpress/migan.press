@@ -151,6 +151,11 @@ a.cover:not(.cover--image):hover { background: var(--lemon); border-color: var(-
 .cover--xs { padding: 9%; }
 .cover--xs .cover__title { font-size: 11px; line-height: 1.35; }
 .cover--image { padding: 0; border: 0; background: none; }   /* 크기별 여백보다 뒤에 둡니다 */
+/* 표지 이미지는 자르지 않고 원래 비율 그대로(만든 책 목록만 2:3 칸에 맞춰 통째로) */
+.cover--image { aspect-ratio: auto; padding: 0 !important; }
+.cover--image img { height: auto; object-fit: initial; }
+.work .cover--image { aspect-ratio: 2 / 3; }
+.work .cover--image img { height: 100%; object-fit: contain; }
 @media (max-width: 720px) {
   .cover__title { font-size: 16px; }
   .cover--xs .cover__title { font-size: 9px; }
