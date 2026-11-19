@@ -171,6 +171,18 @@ DAUM_PIN = "#DaumWebMasterTool:49886e91a149574d39e2614c0c431d23178aa43c5ca8731f0
 ANALYTICS = partial("analytics.html").replace("{GA_ID}", GA_ID)
 CSS_VER = hashlib.sha1((STATIC / "style.css").read_bytes()).hexdigest()[:8]         # 머리 로고 눈 깜빡임
 EMAIL_JS = partial("email_js.html")              # 이메일 주소 조립
+READ_MORE_JS = """<script>
+document.querySelectorAll('.read-more').forEach(function (b) {
+  /* 짧은 소개의 '더 읽기': 누르면 그 자리가 긴 소개로 바뀝니다 */
+  b.addEventListener('click', function () {
+    var long_ = document.getElementById(b.getAttribute('aria-controls'));
+    var short = b.closest('.intro-short');
+    long_.hidden = false; short.hidden = true;
+    b.setAttribute('aria-expanded', 'true');
+    var first = long_.querySelector('p'); if (first) { first.tabIndex = -1; first.focus({ preventScroll: true }); }
+  });
+});
+</script>"""
 BOOK_NAV_JS = partial("book_nav_js.html")        # 책 상세 왼쪽 목차: 지금 읽는 구역 표시
 WORK_CATEGORIES = data_json("work_categories.json")   # 만든 책 제목 → 분야
 WORK_COVERS = data_json("work_covers.json")           # 만든 책 제목 → 표지 파일
@@ -291,14 +303,18 @@ def praise_html(text):
 
 def intro_html(book):
     """짧은 소개와 긴 소개를 함께 씁니다.
-    둘 다 있으면 짧은 소개를 먼저 보여 주고, 긴 소개는 '책 소개 전체 읽기'를 눌러 펼쳐요.
+    둘 다 있으면 짧은 소개 끝에 '더 읽기'를 붙이고, 누르면 짧은 소개 자리가 긴 소개로 바뀝니다.
     하나만 있으면 그것을 그대로 보여 줍니다."""
     short, long_ = book.get("short"), book.get("description")
     if short and long_:
+        s_html = paragraphs(short)
+        k = s_html.rfind("</p>")
+        btn = ' <button type="button" class="read-more" aria-expanded="false" aria-controls="intro-long">더 읽기</button>'
+        s_html = s_html[:k] + btn + s_html[k:] if k != -1 else s_html + btn
         return (
-            f"{paragraphs(short)}\n"
-            f'<details class="more-intro"><summary>책 소개 전체 읽기</summary>'
-            f'<div class="prose">{paragraphs(long_)}</div></details>'
+            f'<div class="intro-short">{s_html}</div>\n'
+            f'<div class="intro-long" id="intro-long" hidden>{paragraphs(long_)}</div>\n'
+            + READ_MORE_JS
         )
     return paragraphs(short or long_)
 
@@ -726,8 +742,8 @@ def page_book(site, books, i):
     # 본문 구역: (구역 id, 머리말, 내용). 내용이 있는 구역만 싣고, 왼쪽 목차에도 그 구역만 넣습니다.
     bio = lambda key: f'<div class="prose">{paragraphs(book.get(key))}</div>' if book.get(key) else ""
     sections = [
-        ("toc", "차례", toc_html(book.get("toc")), "toc-section"),
         ("praise", "추천의 말", praise_html(book.get("praise")), "praise"),
+        ("toc", "차례", toc_html(book.get("toc")), "toc-section"),   # 차례는 추천의 말 다음
         ("awards", "수상 내역", awards_html(book.get("awards")), "awards-section"),
         ("author", "지은이", bio("author_bio"), ""),
         ("translator", "옮긴이", bio("translator_bio"), ""),

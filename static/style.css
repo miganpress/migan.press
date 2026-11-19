@@ -458,3 +458,10 @@ html { scroll-behavior: smooth; }
 }
 @media (max-width: 640px) { .mg-track { animation-duration: 66s; } .logo-band { padding-block: calc(var(--band-h) * 0.5); } }
 @media (prefers-reduced-motion: reduce) { .mg-track, .mg-it .e { animation: none; } }
+
+/* 책 소개 '더 읽기': 짧은 소개 끝에 붙는 글자 버튼 */
+.read-more { display: inline; padding: 0 2px; border: 0; background: none; color: inherit; font: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; cursor: pointer; white-space: nowrap; }
+.read-more:hover, .read-more:focus-visible { color: var(--on-accent); background: var(--red); text-decoration: none; }
+.intro-long p:focus { outline: none; }
+.intro-short, .intro-long { display: flex; flex-direction: column; gap: inherit; }
+.intro-short[hidden], .intro-long[hidden] { display: none; }
