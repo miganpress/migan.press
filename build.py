@@ -600,7 +600,7 @@ def layout(site, *, title, body, current="", description="", image="", path="/",
 def book_row(book):
     return f"""<a class="book-row split" href="/books/{e(book['slug'])}/">
 <span class="book-row__title">{e(book['title'])}</span>
-<span class="book-row__meta"><span class="credit-line">{credit_html(book)}</span><span class="muted">{e(status_label(book))}</span></span>
+<span class="book-row__meta"><span class="credit-line">{credit_html(book)}</span>{f'<span class="muted">{e(status_label(book))}</span>' if book.get("status") != "published" else ""}</span>
 </a>"""
 
 

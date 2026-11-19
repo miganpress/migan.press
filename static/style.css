@@ -222,7 +222,7 @@ a.book-row:hover .muted, a:hover .muted { color: inherit; }   /* 출간 예정�
 .book-row__meta { display: flex; flex-direction: column; font-size: 14px; line-height: 1.6; }
 /* 휴대폰: 제목 글자의 윗선을 오른쪽 글자의 윗선에 맞추고, 지은이·옮긴이는 줄을 나눔 */
 @media (max-width: 720px) {
-  .book-row { align-items: start; }
+  .book-row { align-items: start; grid-template-columns: minmax(0, 1.2fr) 20px minmax(0, 0.8fr); }   /* 휴대폰: 제목 칸을 넓히고 오른쪽 여백을 줄여 양쪽 균형 */
   .book-row__title { display: block; min-height: 0; font-size: 16px; }
   .book-row__meta { min-height: calc(3 * 1.6em); font-size: 12px; }
   .credit-line > span { display: block; }
@@ -338,7 +338,8 @@ a.book-row:hover .muted, a:hover .muted { color: inherit; }   /* 출간 예정�
 }
 
 /* 만든 책: '만든 책 보기'로 펼치는 표지 목록 */
-.works-toggle { margin-top: 18px; padding: 0 0 2px; border: 0; border-bottom: 1px solid currentColor; background: none; font: inherit; font-size: 14px; line-height: 1.35; font-weight: 500; color: var(--ink); cursor: pointer; }
+.works-toggle { margin-top: 18px; padding: 4px 10px; border: 0; background: var(--red); font: inherit; font-size: 14px; line-height: 1.35; font-weight: 500; color: var(--on-accent); cursor: pointer; align-self: flex-start; }   /* 만든 책 보기·인터뷰·기고 보기: migan-red 바탕 */
+.works-toggle:hover, .works-toggle:focus-visible { background: var(--lemon); }
 .works-toggle::after { content: " +"; }
 .works-toggle[aria-expanded="true"]::after { content: " −"; }
 .works-block { width: 100%; max-width: 960px; margin: calc(-1 * clamp(48px, 9vw, 130px)) auto 0; }
