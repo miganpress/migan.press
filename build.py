@@ -571,8 +571,14 @@ def next_book(books):
     return upcoming[0] if upcoming else (published[0] if published else None)
 
 
+def featured_book(books):
+    """첫 화면 맨 위 책: 가장 최근에 나온 책(출간된 책이 없으면 가장 먼저 나올 예정 책)."""
+    published = sorted((b for b in books if b.get("status") == "published"), key=lambda b: str(b.get("pub_date", "")), reverse=True)
+    return published[0] if published else next_book(books)
+
+
 def page_home(site, books):
-    feature = next_book(books)
+    feature = featured_book(books)
 
     feature_html = ""
     if feature:
