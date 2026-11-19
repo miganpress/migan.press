@@ -737,7 +737,7 @@ def page_book(site, books, i):
         rows.append(("ISBN", e(isbn)))
     stores = [(n, book.get(k)) for n, k in (("교보문고", "kyobo"), ("예스24", "yes24"), ("알라딘", "aladin")) if book.get(k)]
     if stores:
-        rows.append(("구입처", ", ".join(f'<a href="{e(u)}" data-ga="store" data-store="{n}" data-book="{e(book["title"])}">{n}</a>' for n, u in stores)))
+        rows.append(("구입처", '<span class="stores">' + "".join(f'<a href="{e(u)}" target="_blank" rel="noopener" data-ga="store" data-store="{n}" data-book="{e(book["title"])}">{n}<span aria-hidden="true">↗</span></a>' for n, u in stores) + "</span>"))
     dl = "\n".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in rows)
     note = '<p class="meta-note">출간 이후 상세 정보는 바뀔 수 있습니다.</p>' if book.get("status") != "published" else ""
     downloads = downloads_html(book)
