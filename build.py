@@ -183,7 +183,16 @@ document.querySelectorAll('.read-more').forEach(function (b) {
   });
 });
 </script>"""
-BOOK_NAV_JS = partial("book_nav_js.html")        # 책 상세 왼쪽 목차: 지금 읽는 구역 표시
+BOOK_NAV_JS = partial("book_nav_js.html")
+BOOK_SIDE_JS = """<script>
+(function () {
+  /* 책 상세 왼쪽(표지·정보)은 그대로, 오른쪽 글만 스크롤. 왼쪽이 화면보다 길면 아래쪽이 보이도록 붙는 높이를 맞춥니다 */
+  var side = document.querySelector('.book__side');
+  if (!side) return;
+  function fit() { side.style.top = Math.min(32, window.innerHeight - side.offsetHeight - 32) + 'px'; }
+  fit(); window.addEventListener('resize', fit); window.addEventListener('load', fit);
+})();
+</script>"""        # 책 상세 왼쪽 목차: 지금 읽는 구역 표시
 WORK_CATEGORIES = data_json("work_categories.json")   # 만든 책 제목 → 분야
 WORK_COVERS = data_json("work_covers.json")           # 만든 책 제목 → 표지 파일
 
@@ -759,6 +768,7 @@ def page_book(site, books, i):
         + "</ul></nav>"
     ) if len(nav_items) > 1 else ""
     body = f"""<article class="book">
+<div class="book__side">
 <div class="book__cover">{cover(book, 'xl', link=False, dark=True)}</div>
 <div class="book__meta">
 <dl class="meta">
@@ -767,6 +777,7 @@ def page_book(site, books, i):
 {downloads}
 {note}
 {section_nav}
+</div>
 </div>
 <div class="book__text">
 <header>
@@ -782,6 +793,7 @@ def page_book(site, books, i):
 </div>
 </article>
 {BOOK_NAV_JS if section_nav else ""}
+{BOOK_SIDE_JS}
 <nav class="pager" aria-label="다른 책">
 <a class="back" href="/books/">← 목록으로</a>
 {next_html}
