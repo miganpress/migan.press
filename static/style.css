@@ -252,7 +252,9 @@ a.book-row:hover .muted, a:hover .muted { color: inherit; }   /* 출간 예정�
 .book__text h1 .sub { display: block; font-size: 0.5em; font-weight: 500; margin-top: 8px; letter-spacing: -0.01em; }
 @media (max-width: 720px) {
   .book { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto; grid-template-areas: "cover" "text" "meta"; row-gap: 20px; max-width: none; }
-  .book__cover { width: min(52%, 200px); }
+  .book__cover { width: auto; display: flex; align-items: flex-end; gap: 20px; }
+  .book__cover > :first-child { width: min(46vw, 200px); flex: none; }   /* 표지 크기는 전과 같게 */
+  .book__cover .buy-m { display: flex; }   /* 휴대폰: 표지 오른쪽 아래에 구매 링크 */
   .book__text, .book__meta { padding-left: 3px; }   /* 첫 화면과 같은 들임 */
   .book__meta { margin-top: 24px; }
   .book__text { max-width: 34em; }
@@ -483,3 +485,8 @@ html { scroll-behavior: smooth; }
 .stores a span { font-size: .8em; margin-left: 2px; }
 .nowrap { white-space: nowrap; }
 .feature__tagline .ln { display: block; text-wrap: balance; }   /* 태그라인 줄마다 길이를 고르게 */
+
+/* 휴대폰 전용 구매 링크 (표지 옆) */
+.buy-m { display: none; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; font-size: 14px; }
+.buy-m a { padding-bottom: 1px; border-bottom: 1px solid currentColor; }
+.buy-m a span { font-size: .8em; margin-left: 2px; }

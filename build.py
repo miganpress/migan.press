@@ -778,6 +778,8 @@ def page_book(site, books, i):
     if stores:
         rows.append(("구입처", '<span class="stores">' + "".join(f'<a href="{e(u)}" target="_blank" rel="noopener" data-ga="store" data-store="{n}" data-book="{e(book["title"])}">{n}<span aria-hidden="true">↗</span></a>' for n, u in stores) + "</span>"))
     dl = "\n".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in rows)
+    # 휴대폰에서만 표지 오른쪽에 보이는 구매 링크
+    buy_m = ('<ul class="buy-m" aria-label="구입처">' + "".join(f'<li><a href="{e(u)}" target="_blank" rel="noopener" data-ga="store" data-store="{n}" data-book="{e(book["title"])}">{n}<span aria-hidden="true">↗</span></a></li>' for n, u in stores) + "</ul>") if stores else ""
     note = '<p class="meta-note">출간 이후 상세 정보는 바뀔 수 있습니다.</p>' if book.get("status") != "published" else ""
     downloads = downloads_html(book)
     subtitle = f'<span class="sub">{e(book["subtitle"])}</span>' if book.get("subtitle") else ""
@@ -806,7 +808,7 @@ def page_book(site, books, i):
     ) if len(nav_items) > 1 else ""
     body = f"""<article class="book">
 <div class="book__side">
-<div class="book__cover">{cover(book, 'xl', link=False, dark=True)}</div>
+<div class="book__cover">{cover(book, 'xl', link=False, dark=True)}{buy_m}</div>
 <div class="book__meta">
 <dl class="meta">
 {dl}
