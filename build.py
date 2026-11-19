@@ -684,8 +684,15 @@ def downloads_html(book):
         press = f"{book['slug']}-press.pdf"   # 보도자료 칸이 비어 있어도 static/files/<주소>-press.pdf가 있으면 씁니다
     if press:
         items.append(("보도자료", download_href(press)))
-    if book.get("cover_file"):
-        items.append(("표지 이미지", download_href(book["cover_file"])))
+    cover_file = book.get("cover_file")
+    if not cover_file and book.get("slug"):
+        # 표지 파일 칸이 비어 있어도 static/files/<주소>-cover.jpg(.png)가 있으면 고해상도 표지로 씁니다
+        for ext in (".jpg", ".png"):
+            if (STATIC / "files" / f"{book['slug']}-cover{ext}").exists():
+                cover_file = f"{book['slug']}-cover{ext}"
+                break
+    if cover_file:
+        items.append(("표지 이미지", download_href(cover_file)))
     if not items:
         return ""
     links = "".join(
