@@ -654,8 +654,11 @@ def download_href(url):
 def downloads_html(book):
     """관련 자료 받기: 보도자료와 표지 파일. 시트에 링크가 있는 것만 보여 줍니다."""
     items = []
-    if book.get("press_kit"):
-        items.append(("보도자료", download_href(book["press_kit"])))
+    press = book.get("press_kit")
+    if not press and book.get("slug") and (STATIC / "files" / f"{book['slug']}-press.pdf").exists():
+        press = f"{book['slug']}-press.pdf"   # 보도자료 칸이 비어 있어도 static/files/<주소>-press.pdf가 있으면 씁니다
+    if press:
+        items.append(("보도자료", download_href(press)))
     if book.get("cover_file"):
         items.append(("표지 이미지", download_href(book["cover_file"])))
     if not items:
