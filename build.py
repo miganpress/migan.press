@@ -172,16 +172,24 @@ ANALYTICS = partial("analytics.html").replace("{GA_ID}", GA_ID)
 CSS_VER = hashlib.sha1((STATIC / "style.css").read_bytes()).hexdigest()[:8]         # 머리 로고 눈 깜빡임
 EMAIL_JS = partial("email_js.html")              # 이메일 주소 조립
 READ_MORE_JS = """<script>
-document.querySelectorAll('.read-more').forEach(function (b) {
-  /* 짧은 소개의 '더 읽기': 누르면 그 자리가 긴 소개로 바뀝니다 */
-  b.addEventListener('click', function () {
-    var long_ = document.getElementById(b.getAttribute('aria-controls'));
-    var short = b.closest('.intro-short');
-    long_.hidden = false; short.hidden = true;
-    b.setAttribute('aria-expanded', 'true');
-    var first = long_.querySelector('p'); if (first) { first.tabIndex = -1; first.focus({ preventScroll: true }); }
+(function () {
+  /* 짧은 소개 끝 (+): 그 자리가 긴 소개로 바뀜. 긴 소개 끝 (−): 다시 짧은 소개로 */
+  var long_ = document.getElementById('intro-long');
+  if (!long_) return;
+  var short = document.querySelector('.intro-short');
+  var more = short.querySelector('.read-more');
+  var less = long_.querySelector('.read-less');
+  more.addEventListener('click', function () {
+    long_.hidden = false; short.hidden = true; more.setAttribute('aria-expanded', 'true');
+    less.focus({ preventScroll: true });
   });
-});
+  less.addEventListener('click', function () {
+    long_.hidden = true; short.hidden = false; more.setAttribute('aria-expanded', 'false');
+    more.focus({ preventScroll: true });
+    var top = document.getElementById('intro').getBoundingClientRect().top;
+    if (top < 0) document.getElementById('intro').scrollIntoView({ block: 'start' });
+  });
+})();
 </script>"""
 BOOK_NAV_JS = partial("book_nav_js.html")
 BOOK_SIDE_JS = """<script>
@@ -318,11 +326,15 @@ def intro_html(book):
     if short and long_:
         s_html = paragraphs(short)
         k = s_html.rfind("</p>")
-        btn = ' <button type="button" class="read-more" aria-expanded="false" aria-controls="intro-long">더 읽기</button>'
+        btn = ' <button type="button" class="read-more" aria-expanded="false" aria-controls="intro-long" aria-label="책 소개 더 읽기"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M10 5.5v9M5.5 10h9"/></svg></button>'
         s_html = s_html[:k] + btn + s_html[k:] if k != -1 else s_html + btn
+        l_html = paragraphs(long_)
+        k = l_html.rfind("</p>")
+        less = ' <button type="button" class="read-more read-less" aria-controls="intro-long" aria-label="책 소개 접기"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M5.5 10h9"/></svg></button>'
+        l_html = l_html[:k] + less + l_html[k:] if k != -1 else l_html + less
         return (
             f'<div class="intro-short">{s_html}</div>\n'
-            f'<div class="intro-long" id="intro-long" hidden>{paragraphs(long_)}</div>\n'
+            f'<div class="intro-long" id="intro-long" hidden>{l_html}</div>\n'
             + READ_MORE_JS
         )
     return paragraphs(short or long_)

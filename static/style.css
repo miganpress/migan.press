@@ -461,8 +461,12 @@ html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { .mg-track, .mg-it .e { animation: none; } }
 
 /* 책 소개 '더 읽기': 짧은 소개 끝에 붙는 글자 버튼 */
-.read-more { display: inline; padding: 0 2px; border: 0; background: none; color: inherit; font: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; cursor: pointer; white-space: nowrap; }
-.read-more:hover, .read-more:focus-visible { color: var(--on-accent); background: var(--red); text-decoration: none; }
+.read-more { display: inline-grid; place-items: center; width: 1.25em; height: 1.25em; margin-left: 4px; padding: 0; border: 0; background: none; vertical-align: -0.22em; cursor: pointer; }   /* 미간 빨강 동그라미 안에 + */
+.read-more svg { display: block; width: 100%; height: 100%; }
+.read-more circle { fill: var(--red); transition: fill .15s ease; }
+.read-more path { stroke: var(--on-accent); stroke-width: 2; stroke-linecap: round; fill: none; }
+.read-more:hover circle, .read-more:focus-visible circle { fill: var(--lemon); }
+.read-more:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 50%; }
 .intro-long p:focus { outline: none; }
 .intro-short, .intro-long { display: flex; flex-direction: column; gap: inherit; }
 .intro-short[hidden], .intro-long[hidden] { display: none; }
