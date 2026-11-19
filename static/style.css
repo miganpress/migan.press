@@ -277,6 +277,7 @@ a.book-row:hover .muted, a:hover .muted { color: inherit; }   /* 출간 예정�
 .toc__body { margin-top: 0; display: flex; flex-direction: column; gap: 14px; }
 .toc__body ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
 .book-section { display: flex; flex-direction: column; gap: 16px; }
+.book-section > h2.caps-ko { font-size: clamp(18px, 1.7vw, 21px); letter-spacing: -0.01em; line-height: 1.4; }   /* 책 상세 소제목(추천의 말·차례·지은이 등) */
 .caps-ko { font-size: 13px; font-weight: 700; letter-spacing: 0.04em; margin: 0; }   /* 작은 굵은 머리말 */
 .praise figure { margin: 0; display: flex; flex-direction: column; gap: 6px; }
 .praise figure + figure { margin-top: 14px; }
