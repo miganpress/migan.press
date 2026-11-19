@@ -473,8 +473,9 @@ html { scroll-behavior: smooth; }
 .intro-short[hidden], .intro-long[hidden] { display: none; }
 
 /* 책 상세 구입처: 쉼표 없이 서점 이름을 나란히 */
-.stores { display: flex; flex-wrap: wrap; gap: 4px 14px; }
-.stores a { display: inline-flex; align-items: baseline; gap: 2px; }   /* 밑줄은 .meta a의 한 줄만 */
-.stores a span { font-size: .8em; }
+.stores { display: block; }
+.stores a + a { margin-left: 14px; }   /* 서점 사이 간격(flex를 쓰면 밑줄 위치가 달라져서 인라인으로) */
+.stores a { display: inline; }   /* 밑줄 위치를 아래 내려받기 링크와 똑같이(인라인) */
+.stores a span { font-size: .8em; margin-left: 2px; }
 .nowrap { white-space: nowrap; }
 .feature__tagline .ln { display: block; text-wrap: balance; }   /* 태그라인 줄마다 길이를 고르게 */
