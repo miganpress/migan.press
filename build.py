@@ -718,6 +718,8 @@ def page_book(site, books, i):
     book = books[i]
     nxt = books[i + 1] if i + 1 < len(books) else None
     rows = []
+    ko_title = book["title"] + (f": {book['subtitle']}" if book.get("subtitle") else "")
+    rows.append(("제목", e(ko_title)))   # 한국어판 제목: 부제
     if book.get("original_title"):
         orig = f"<cite>{e(book['original_title'])}</cite>"   # 영문 책 제목은 이탤릭, 부제는 싣지 않음
         if book.get("original_author"):
