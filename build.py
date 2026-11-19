@@ -638,7 +638,7 @@ def page_home(site, books):
 <div class="feature__cover">{cover(feature, 'l', dark=True)}</div>
 <div class="feature__text">
 {f'<p class="feature__when muted">{e(when)}</p>' if upcoming_book else ''}
-<h2 id="feature-title"><a href="/books/{e(feature['slug'])}/">{e(feature['title'])}</a></h2>
+<h2 id="feature-title"><a href="/books/{e(feature['slug'])}/">{e(feature['title'])}</a>{f'<span class="sub">{e(feature["subtitle"])}</span>' if feature.get("subtitle") else ""}</h2>
 <p>{e(credit(feature, short=True))}</p>
 <div class="feature__tagline prose">{line_paragraphs(feature.get('tagline') or feature.get('short'))}</div>
 <a class="more" href="/books/{e(feature['slug'])}/">자세히 보기</a>
