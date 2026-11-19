@@ -469,6 +469,5 @@ html { scroll-behavior: smooth; }
 
 /* 책 상세 구입처: 쉼표 없이 서점 이름을 나란히 */
 .stores { display: flex; flex-wrap: wrap; gap: 4px 14px; }
-.stores a { display: inline-flex; align-items: baseline; gap: 2px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
-.stores a span { font-size: .8em; text-decoration: none; }
-.stores a:hover { text-decoration: none; }
+.stores a { display: inline-flex; align-items: baseline; gap: 2px; }   /* 밑줄은 .meta a의 한 줄만 */
+.stores a span { font-size: .8em; }
