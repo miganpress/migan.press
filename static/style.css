@@ -73,7 +73,7 @@ img { display: block; max-width: 100%; }
 
 /* 밑줄 링크: 이동 링크는 2px, 표 안의 작은 링크는 1px */
 .more, .more-intro summary { border-bottom: 2px solid currentColor; }
-.meta a { padding-bottom: 2px; border-bottom: 1px solid currentColor; }
+.meta a { padding-bottom: 1px; border-bottom: 1px solid currentColor; }   /* 표지 이미지·보도자료 밑줄과 같은 간격 */
 .downloads a { border-bottom: 1px solid currentColor; }
 
 /* ── 머리 ─────────────────────────────────────────── */
