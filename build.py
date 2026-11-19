@@ -770,7 +770,7 @@ def page_book(site, books, i):
 </div>
 <div class="book__text">
 <header>
-<p class="muted">{e(status_label(book))}</p>
+{f'<p class="muted">{e(status_label(book))}</p>' if book.get("status") != "published" else ""}
 <h1>{e(book['title'])}{subtitle}</h1>
 <p>{e(credit(book))}</p>
 </header>
