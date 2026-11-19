@@ -277,7 +277,8 @@ a.book-row:hover .muted, a:hover .muted { color: inherit; }   /* 출간 예정�
 .toc__body { margin-top: 0; display: flex; flex-direction: column; gap: 14px; }
 .toc__body ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
 .book-section { display: flex; flex-direction: column; gap: 16px; }
-.book-section > h2.caps-ko { align-self: flex-start; padding: 2px 8px; margin-left: -8px; font-size: 16px; letter-spacing: 0; line-height: 1.5; color: var(--on-accent); background: var(--red); }   /* 책 상세 소제목: 올렸을 때처럼 migan-red 바탕 */
+.book-section > h2.caps-ko { font-size: 16px; letter-spacing: 0; line-height: 1.5; color: var(--ink); }   /* 책 상세 소제목: 굵은 검정 */
+.book__text > .book-section { padding-top: 28px; border-top: 1px solid var(--hair); }   /* 구역마다 위에 구분선 한 줄 */
 .caps-ko { font-size: 13px; font-weight: 700; letter-spacing: 0.04em; margin: 0; }   /* 작은 굵은 머리말 */
 .praise figure { margin: 0; display: flex; flex-direction: column; gap: 6px; }
 .praise figure + figure { margin-top: 14px; }
