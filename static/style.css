@@ -54,8 +54,9 @@ img { display: block; max-width: 100%; }
 @media (max-width: 720px) {
   body { font-size: 15px; }
 }
-@media (prefers-reduced-motion: no-preference) {
-  a, button { transition: color 0.15s ease; }
+html { -webkit-tap-highlight-color: transparent; }   /* 모바일 탭할 때 회색 덧칠 없애기 */
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+  a, button { transition: color 0.15s ease; }   /* 마우스 있는 기기에서만 — 모바일 탭은 바로 흰 글자 */
 }
 
 /* 좌우 나눔: [왼쪽] [미간] [오른쪽] */
