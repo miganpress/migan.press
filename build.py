@@ -725,7 +725,9 @@ def page_book(site, books, i):
         if book.get("original_author"):
             orig += f" by {e(names_en(book['original_author']))}"
         rows.append(("원서", orig))
-    rows.append(("출간", e(status_label(book))))
+    pub = fmt_date(book.get("pub_date"))
+    if pub:
+        rows.append(("발행일", e(pub if book.get("status") == "published" else f"{pub} 예정")))
     if book.get("size"):
         rows.append(("판형", e(fmt_size(book["size"]))))
     if book.get("binding"):
