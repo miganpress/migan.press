@@ -188,6 +188,10 @@ def resolve_cover(item, name):
     """표지 칸 → 이미지 파일을 정합니다. 주소(구글 드라이브 포함)면 내려받고, 파일 이름이면 covers 폴더에서 씁니다. 비어 있으면 글자 표지가 나옵니다."""
     value = (item.get("cover") or "").strip()
     if not value:
+        # 표지 칸이 비어 있어도 static/covers/<주소>.jpg(.png/.webp)가 있으면 그 파일을 씁니다
+        for ext in (".jpg", ".png", ".webp"):
+            if item.get("slug") and (STATIC / "covers" / f"{item['slug']}{ext}").exists():
+                return f"/covers/{item['slug']}{ext}"
         return ""
     if not value.startswith("http"):
         return f"/covers/{value.lstrip('/').removeprefix('covers/')}"
