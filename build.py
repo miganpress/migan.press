@@ -338,7 +338,7 @@ def toc_html(text):
         "<ul>" + "".join(f"<li>{rich(line.strip())}</li>" for line in part.splitlines() if line.strip()) + "</ul>"
         for part in parts
     )
-    return f'<details class="more-intro toc"><summary>차례 보기</summary><div class="toc__body">{lists}</div></details>'
+    return f'<div class="toc"><div class="toc__body">{lists}</div></div>'   # 접지 않고 펼쳐 둠
 
 
 def awards_html(text):
