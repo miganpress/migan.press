@@ -253,7 +253,8 @@ a.book-row:hover .muted, a:hover .muted { color: inherit; }   /* 출간 예정�
 @media (max-width: 720px) {
   .book { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto; grid-template-areas: "cover" "text" "meta"; row-gap: 20px; max-width: none; }
   .book__cover { width: auto; display: flex; align-items: flex-end; gap: 20px; }
-  .book__cover > :first-child { width: min(46vw, 200px); flex: none; }   /* 표지 크기는 전과 같게 */
+  .book__cover > :first-child { width: min(46vw, 200px); flex: none; }
+  .book__cover > .cover:not(.cover--image) { padding: calc(min(46vw, 200px) * 0.1); }   /* % 여백이 옆 링크까지 포함한 폭 기준으로 커지지 않게 */   /* 표지 크기는 전과 같게 */
   .book__cover .buy-m { display: flex; }   /* 휴대폰: 표지 오른쪽 아래에 구매 링크 */
   .book__text, .book__meta { padding-left: 3px; }   /* 첫 화면과 같은 들임 */
   .book__meta { margin-top: 24px; }
