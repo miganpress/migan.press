@@ -123,6 +123,37 @@ button:focus-visible,.btn:focus-visible,input:focus-visible{outline:3px solid va
 @media(max-width:600px){.bands{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(prefers-reduced-motion:reduce){.meter i{transition:none}.loading.on .lbar i{animation:none;width:100%}.eye .pupil{animation:none}}
 </style>
+<script>
+/* 대표님 기기 제외: miganpress.com/?me=1 로 한 번 접속하면 그 브라우저는 집계하지 않음, ?me=0 으로 해제 */
+(function () {
+  try {
+    var me = new URLSearchParams(location.search).get('me');
+    if (me === '1') localStorage.setItem('migan_me', '1');
+    if (me === '0') localStorage.removeItem('migan_me');
+    if (localStorage.getItem('migan_me') === '1') window['ga-disable-G-ZNCEWNR0QF'] = true;
+  } catch (e) {}
+})();
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNCEWNR0QF"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-ZNCEWNR0QF');
+/* 마케팅용 클릭 기록: 서점 링크, 보도자료·표지 내려받기, 이메일 */
+document.addEventListener('click', function (ev) {
+  var a = ev.target.closest && ev.target.closest('a');
+  if (!a) return;
+  var kind = a.getAttribute('data-ga');
+  if (kind === 'store') {
+    gtag('event', 'store_click', { store: a.getAttribute('data-store'), book_title: a.getAttribute('data-book') });
+  } else if (kind === 'download') {
+    gtag('event', 'material_download', { item: a.getAttribute('data-item'), book_title: a.getAttribute('data-book') });
+  } else if ((a.getAttribute('href') || '').indexOf('mailto:') === 0) {
+    gtag('event', 'email_click', { page_path: location.pathname });
+  }
+});
+</script>
 </head>
 <body>
 
@@ -186,7 +217,7 @@ button:focus-visible,.btn:focus-visible,input:focus-visible{outline:3px solid va
 <img src="a/cover.jpg" alt="『책 공포증』 표지">
 <div>
 <p class="meta" id="bookTitle"><b>책 공포증</b><br>어느 독서광의 고백<br>세라 치하야 지음, 박다솜 옮김</p>
-<a class="btn" href="https://aladin.kr/p/Zh8B1" target="_blank" rel="noopener">자세히 보기</a>
+<a class="btn" href="https://aladin.kr/p/Zh8B1" target="_blank" rel="noopener" data-ga="store" data-store="알라딘" data-book="책 공포증">자세히 보기</a>
 </div>
 </div>
 </section>
@@ -331,6 +362,21 @@ try{history.replaceState({p:1},'')}catch(e){}
 if(fb){const f=$('friend');f.style.display='block';f.innerHTML=fk!=null?`친구는 ${items.length}개 중 ${fk}개 해당, <b>${fb.band}</b>. 당신은 몇 개일까요?`:`친구의 결과는 <b>${fb.band}</b>. 당신은 몇 개일까요?`}}
 update();
 }
+</script>
+<script>
+/* 테스트 흐름 기록: 시작, 결과(체크 수·구간), 공유, 이미지 저장, 다시 하기 */
+(function(){
+  var t=function(name,p){try{gtag('event',name,Object.assign({test:'bibliophobia'},p||{}))}catch(e){}};
+  var c=function(){return document.querySelectorAll('#list input:checked').length};
+  var band=function(k){return k<=5?'r1':k<=11?'r2':k<=16?'r3':'r4'};
+  var on=function(id,ev,f){var el=document.getElementById(id);if(el)el.addEventListener(ev,f)};
+  on('begin','click',function(){t('test_start')});
+  on('quiz','submit',function(){var k=c();t('test_result',{checked:k,band:band(k)})});
+  on('share','click',function(){var k=c();t('test_share',{checked:k,band:band(k)})});
+  on('save','click',function(){var k=c();t('test_save',{checked:k,band:band(k)})});
+  on('again','click',function(){t('test_again')});
+  if(/^#n\d+$/.test(location.hash))t('test_from_share',{shared_checked:+location.hash.slice(2)});
+})();
 </script>
 </body>
 </html>
