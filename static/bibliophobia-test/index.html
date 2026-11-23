@@ -217,7 +217,7 @@ document.addEventListener('click', function (ev) {
 <img src="a/cover.jpg" alt="『책 공포증』 표지">
 <div>
 <p class="meta" id="bookTitle"><b>책 공포증</b><br>어느 독서광의 고백<br>세라 치하야 지음, 박다솜 옮김</p>
-<a class="btn" href="https://aladin.kr/p/Zh8B1" target="_blank" rel="noopener" data-ga="store" data-store="알라딘" data-book="책 공포증">자세히 보기</a>
+<a class="btn" href="https://aladin.kr/p/Zh8B1" target="_blank" rel="noopener" id="buy" data-store="알라딘" data-book="책 공포증">자세히 보기</a>
 </div>
 </div>
 </section>
@@ -379,6 +379,7 @@ update();
   on('share','click',function(){var k=c();t('test_share',{checked:k,band:band(k)})});
   on('save','click',function(){var k=c();t('test_save',{checked:k,band:band(k)})});
   on('again','click',function(){t('test_again')});
+  on('buy','click',function(){var k=c();t('test_store_click',{store:'알라딘',checked:k,band:band(k)})});   // 테스트에서 누른 서점 링크는 따로 집계
   if(/^#n\d+$/.test(location.hash))t('test_from_share',{shared_checked:+location.hash.slice(2)});
 })();
 </script>
