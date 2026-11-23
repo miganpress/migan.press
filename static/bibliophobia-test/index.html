@@ -255,7 +255,7 @@ const bandOf=k=>bands.find(b=>k>=b.min&&k<=b.max);
 const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const note=t=>$('note').textContent=t;
 const link=()=>PAGE+'r/'+n()+'/';
-const shareText=()=>{const k=n(),b=bandOf(k);return `[책 공포증 위험도 자가 테스트] ${items.length}개 중 ${k}개 해당, "${b.band}". 당신은 몇 개인가요? #책공포증`};
+const shareText=()=>{const k=n(),b=bandOf(k);return `[책 공포증 위험도 자가 테스트] ${items.length}개 중 ${k}개 해당, "${b.band}". 당신의 책 공포증 위험도는? #책공포증`};
 
 /* 결과 카드: 캔버스에 그려서 이미지로 공유 */
 const imgs={};
