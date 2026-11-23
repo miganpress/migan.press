@@ -243,7 +243,7 @@ const bands=[
 {id:"r1",min:0,max:5,band:"책과 안전거리 유지 중",text:"책은 그저 책일 뿐. 서점은 약속 장소로만 씁니다."},
 {id:"r2",min:6,max:11,band:"책 공포증 잠복기",text:"읽다 만 책이 쌓여 있는 당신, 책 공포증 위험군입니다."},
 {id:"r3",min:12,max:16,band:"책 공포증 진행 중",text:"책 없이는 못 사는 당신, 이미 책 공포증 진행 중입니다."},
-{id:"r4",min:17,max:20,band:"책 공포증 확진",text:"심각한 활자 중독자. 책 공포증 고위험군입니다. 이 테스트도 책이었으면 아껴 읽었겠지요."}];
+{id:"r4",min:17,max:20,band:"책 공포증 확진",text:"심각한 활자 중독자. 책 공포증 고위험군입니다."}];
 const $=s=>document.getElementById(s);
 const esc=t=>t.replace(/&/g,'&amp;').replace(/</g,'&lt;');
 $('list').innerHTML=items.map((t,i)=>`<li><label for="q${i}"><input type="checkbox" id="q${i}"><span>${esc(t)}</span></label></li>`).join('');
@@ -294,7 +294,7 @@ function draw(){
   c.font=`700 38px ${F}`;
   const ql=[];{let line='';for(const wd of QUOTES[qi%QUOTES.length].split(' ')){const t=line?line+' '+wd:wd;if(c.measureText(t).width>W-192&&line){ql.push(line);line=wd}else line=t}ql.push(line)}
   const qlh=58,qEnd=1724,qTop=qEnd-(ql.length-1)*qlh-qlh;
-  const TEXT={r1:['책은 그저 책일 뿐.','서점은 약속 장소로만 씁니다.'],r2:['읽다 만 책이 쌓여 있는 당신,','책 공포증 위험군입니다.'],r3:['책 없이는 못 사는 당신,','이미 책 공포증 진행 중입니다.'],r4:['심각한 활자 중독자.','책 공포증 고위험군입니다.','이 테스트도 책이었으면','아껴 읽었겠지요.']};
+  const TEXT={r1:['책은 그저 책일 뿐.','서점은 약속 장소로만 씁니다.'],r2:['읽다 만 책이 쌓여 있는 당신,','책 공포증 위험군입니다.'],r3:['책 없이는 못 사는 당신,','이미 책 공포증 진행 중입니다.'],r4:['심각한 활자 중독자.','책 공포증 고위험군입니다.']};
   const top=Math.min(600,qTop-60-70-(90+128*0.82+2*176+20+(TEXT[b.id].length-1)*92));   // 결과 문구가 인용구 구분선과 겹치지 않게
   c.fillStyle='#fff';c.font=`700 54px ${F}`;c.fillText(`${items.length}개 중 ${k}개 해당`,96,top);
   const LINES={r1:['책과 안전거리','유지 중'],r2:['책 공포증','잠복기'],r3:['책 공포증','진행 중'],r4:['책 공포증','확진']};
