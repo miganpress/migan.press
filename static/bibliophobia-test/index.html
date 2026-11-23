@@ -198,7 +198,6 @@ document.addEventListener('click', function (ev) {
 </form>
 
 <section class="result" id="result" aria-labelledby="rTitle" hidden>
-<button type="button" class="back" data-to="3">← 다시 체크하기</button>
 <h2 id="rTitle" hidden>당신의 결과</h2>
 <img class="cardimg" id="cardImg" alt="">
 <div class="bands" id="bands" hidden></div>
@@ -325,7 +324,7 @@ let lt=null;
 function finishLoading(){if(lt===null)return;clearTimeout(lt);lt=null;$('loading').hidden=true;$('loading').classList.remove('on');go(4);show(true)}
 $('loading').addEventListener('click',finishLoading);
 $('quiz').addEventListener('submit',e=>{e.preventDefault();qi=Math.floor(Math.random()*QUOTES.length);draw();const L=$('loading');L.hidden=false;void L.offsetWidth;L.classList.add('on');lt=setTimeout(finishLoading,2600)});
-$('again').addEventListener('click',()=>{boxes.forEach(b=>b.checked=false);update();go(3)});
+$('again').addEventListener('click',()=>{boxes.forEach(b=>b.checked=false);update();go(1)});
 $('share').addEventListener('click',async()=>{
   const text=shareText(),url=link();
   if(navigator.share){try{await navigator.share({title:'책 공포증 위험도 자가 테스트',text,url});note('');return}catch(e){if(e.name==='AbortError')return}}
