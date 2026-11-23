@@ -249,7 +249,7 @@ $('list').innerHTML=items.map((t,i)=>`<li><label for="q${i}"><input type="checkb
 $('bands').innerHTML=bands.map(b=>`<div data-id="${b.id}"><b>${b.min}~${b.max}개</b>${b.band}</div>`).join('');
 const boxes=[...document.querySelectorAll('#list input')];
 const KEY='migan-bph-test';
-try{const s=JSON.parse(localStorage.getItem(KEY)||'[]');boxes.forEach((b,i)=>b.checked=!!s[i])}catch(e){}
+try{localStorage.removeItem(KEY)}catch(e){}   // 새로 들어오면 늘 처음부터(예전에 저장된 체크도 지움)
 const n=()=>boxes.filter(b=>b.checked).length;
 const bandOf=k=>bands.find(b=>k>=b.min&&k<=b.max);
 const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -311,7 +311,6 @@ function draw(){
 }
 function update(){
   const k=n();$('count').textContent=k+' / '+items.length;$('fill').style.width=(k/items.length*100)+'%';
-  try{localStorage.setItem(KEY,JSON.stringify(boxes.map(b=>b.checked)))}catch(e){}
 }
 function show(scroll){
   const b=bandOf(n());
