@@ -331,7 +331,8 @@ $('quiz').addEventListener('submit',e=>{e.preventDefault();qi=Math.floor(Math.ra
 $('again').addEventListener('click',()=>{boxes.forEach(b=>b.checked=false);update();go(1)});
 $('share').addEventListener('click',async()=>{
   const text=shareText(),url=link();
-  if(navigator.share){try{await navigator.share({title:'책 공포증 위험도 자가 테스트',text,url});note('');return}catch(e){if(e.name==='AbortError')return}}
+  if(navigator.share){try{await navigator.share({text:text+' '+url});   // 링크를 글 안에 넣어 보냄: X 등 앱이 url만 집어 가며 글을 버리는 문제 방지
+  note('');return}catch(e){if(e.name==='AbortError')return}}
   note(await copyLink()?'링크를 복사했습니다. 원하는 곳에 붙여 넣어 주세요.':url);
 });
 let dl=null;try{if(window.claude&&claude.use)claude.use('downloads').then(d=>{dl=d}).catch(()=>{})}catch(e){}
