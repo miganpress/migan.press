@@ -238,10 +238,10 @@ const SVGS={"wordD": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"810 45
 const PAGE='https://miganpress.com/bibliophobia-test/';
 const items=["서점이나 도서관에 가면 시간 가는 줄 모른다","책 냄새를 맡으면 마음이 안정된다","책장을 보면 그 사람이 어떤 사람인지 알 수 있다고 생각한다","아직 다 읽지 않은 책이 쌓여 있는데도 새 책을 또 산다","빌려준 책이 돌아오지 않아 그 사람과의 관계를 다시 생각해 본 적이 있다","같은 책을 세 번 넘게 읽은 적이 있다","좋아하는 책은 끝나는 게 아까워서 마지막 장을 아껴 읽는다","책 한 권 때문에 밤을 새우고 다음 날을 망친 적이 있다","읽다 만 책이 머리맡에 다섯 권 넘게 쌓여 있다","\"그 책 읽었어?\"라는 질문에 읽은 척한 적이 있다","책장의 '언젠가 읽을 고전'을 볼 때마다 뜨끔하다","모르고 같은 책을 두 번 산 적이 있다","책의 물성을 좋아하고 꽂아놓는 것만으로도 반은 읽은 셈이라고 생각한다","여행이나 외출할 때 읽을 책을 챙기지 않으면 불안하다","읽고 싶은 책을 다 읽기엔 인생이 짧다는 생각에 조급해진 적이 있다","이사할 때 책 때문에 이삿짐 견적이 올라간 적이 있다","소설 속 인물을 실제 친구보다 잘 안다","힘든 날에는 사람보다 책을 먼저 찾는다","지금의 나를 만든 건 팔 할이 책이다","책 한 권 때문에 인생의 방향이 바뀐 적이 있다"];
 const bands=[
-{id:"r1",min:0,max:5,band:"책과 안전거리 유지 중",text:"서점은 약속 장소로만 씁니다."},
+{id:"r1",min:0,max:5,band:"책과 안전거리 유지 중",text:"책은 그저 책일 뿐. 서점은 약속 장소로만 씁니다."},
 {id:"r2",min:6,max:11,band:"책 공포증 잠복기",text:"읽다 만 책이 쌓여 있는 당신, 책 공포증 위험군입니다."},
-{id:"r3",min:12,max:16,band:"책 공포증 진행 중",text:"이미 중증 책 공포증 환자입니다."},
-{id:"r4",min:17,max:20,band:"책 공포증 확진",text:"이 테스트도 책이었으면 아껴 읽었겠지요."}];
+{id:"r3",min:12,max:16,band:"책 공포증 진행 중",text:"당신은 책 없이는 못 삽니다. 이미 당신도 모르게 책 공포증 진행 중입니다."},
+{id:"r4",min:17,max:20,band:"책 공포증 확진",text:"심각한 활자 중독자, 이미 책 공포증 보유자입니다. 이 테스트도 책이었으면 아껴 읽었겠지요."}];
 const $=s=>document.getElementById(s);
 const esc=t=>t.replace(/&/g,'&amp;').replace(/</g,'&lt;');
 $('list').innerHTML=items.map((t,i)=>`<li><label for="q${i}"><input type="checkbox" id="q${i}"><span>${esc(t)}</span></label></li>`).join('');
@@ -289,16 +289,18 @@ function draw(){
   const wh=1700,ww=wh*130/515,wx=W-96-ww,sc=wh/515;c.globalAlpha=.07;c.drawImage(word,wx,110,ww,wh);c.globalAlpha=1;
   c.textBaseline='alphabetic';
   c.fillStyle='#BCBEC0';c.font=`700 36px ${F}`;c.fillText('책 공포증 위험도 자가 테스트',96,170);
-  c.fillStyle='#fff';c.font=`700 54px ${F}`;c.fillText(`${items.length}개 중 ${k}개 해당`,96,600);
-  const LINES={r1:['책과 안전거리','유지 중'],r2:['책 공포증','잠복기'],r3:['책 공포증','진행 중'],r4:['책 공포증','확진']};
-  const fs=128,lh=176;let y=600+90+fs*0.82;
-  c.font=`700 ${fs}px ${F}`;
-  for(const l of LINES[b.id]){const w=c.measureText(l).width;c.fillStyle=RED;c.fillRect(96-20,y-fs*0.9,w+40,fs*1.15);c.fillStyle='#fff';c.fillText(l,96,y);y+=lh}
-  const TEXT={r1:['서점은','약속 장소로만 씁니다.'],r2:['읽다 만 책이 쌓여 있는 당신,','책 공포증 위험군입니다.'],r3:['이미 중증 책 공포증 환자입니다.'],r4:['이 테스트도 책이었으면','아껴 읽었겠지요.']};
-  c.font=`700 54px ${F}`;c.fillStyle='#fff';TEXT[b.id].forEach((l,i)=>c.fillText(l,96,y+20+i*92));
   c.font=`700 38px ${F}`;
   const ql=[];{let line='';for(const wd of QUOTES[qi%QUOTES.length].split(' ')){const t=line?line+' '+wd:wd;if(c.measureText(t).width>W-192&&line){ql.push(line);line=wd}else line=t}ql.push(line)}
   const qlh=58,qEnd=1724,qTop=qEnd-(ql.length-1)*qlh-qlh;
+  const TEXT={r1:['책은 그저 책일 뿐.','서점은 약속 장소로만 씁니다.'],r2:['읽다 만 책이 쌓여 있는 당신,','책 공포증 위험군입니다.'],r3:['당신은 책 없이는 못 삽니다.','이미 당신도 모르게','책 공포증 진행 중입니다.'],r4:['심각한 활자 중독자,','이미 책 공포증 보유자입니다.','이 테스트도 책이었으면','아껴 읽었겠지요.']};
+  const top=Math.min(600,qTop-60-70-(90+128*0.82+2*176+20+(TEXT[b.id].length-1)*92));   // 결과 문구가 인용구 구분선과 겹치지 않게
+  c.fillStyle='#fff';c.font=`700 54px ${F}`;c.fillText(`${items.length}개 중 ${k}개 해당`,96,top);
+  const LINES={r1:['책과 안전거리','유지 중'],r2:['책 공포증','잠복기'],r3:['책 공포증','진행 중'],r4:['책 공포증','확진']};
+  const fs=128,lh=176;let y=top+90+fs*0.82;
+  c.font=`700 ${fs}px ${F}`;
+  for(const l of LINES[b.id]){const w=c.measureText(l).width;c.fillStyle=RED;c.fillRect(96-20,y-fs*0.9,w+40,fs*1.15);c.fillStyle='#fff';c.fillText(l,96,y);y+=lh}
+  c.font=`700 54px ${F}`;c.fillStyle='#fff';TEXT[b.id].forEach((l,i)=>c.fillText(l,96,y+20+i*92));
+  c.font=`700 38px ${F}`;
   c.fillStyle='rgba(255,255,255,.25)';c.fillRect(96,qTop-60,W-192,2);
   c.fillStyle='#BCBEC0';ql.forEach((l,i)=>c.fillText(l,96,qTop+i*qlh));
   c.font=`400 26px ${F}`;c.fillStyle='#8d8781';c.fillText('─ 『책 공포증』에서',96,qTop+ql.length*qlh-6);
