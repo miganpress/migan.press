@@ -42,8 +42,6 @@ svg{display:block}
 .cover h1{margin:0;font-size:clamp(44px,12.2cqw,60px);line-height:1.1;font-weight:900;letter-spacing:-.03em}
 .cover .lead{margin:18px 0 0;font-size:23px;font-weight:700;max-width:19em}
 .start{margin-top:24px;align-self:flex-start;background:var(--ink)!important;border-color:var(--ink)!important}
-.friend{margin:0 0 18px;padding:12px 14px;background:var(--ink);color:var(--white);border-radius:4px;display:none;font-size:15px;font-weight:700}
-.friend b{color:#ff7a86}
 .col{position:relative;align-self:start}
 .col .word{position:relative;z-index:1;width:100%;height:auto}
 .col .eye{position:absolute;width:62%;height:auto;z-index:0}
@@ -161,7 +159,6 @@ document.addEventListener('click', function (ev) {
 <div class="wrap">
 <div class="left">
 <div>
-<p class="friend" id="friend"></p>
 <h1 id="h">책 공포증<br>위험도<br>자가 테스트</h1>
 <p class="lead">당신도 책 공포증 위험군?</p>
 <button type="button" class="btn start" id="enter">들어가기</button>
@@ -358,8 +355,7 @@ document.querySelectorAll('.back').forEach(x=>x.addEventListener('click',()=>go(
 $('begin').addEventListener('click',()=>go(3));
 addEventListener('popstate',e=>go((e.state&&e.state.p)||1,false));
 try{history.replaceState({p:1},'')}catch(e){}
-{const m=location.hash.match(/^#n(\d+)$/);const fk=m?Math.min(+m[1],items.length):null;const fb=fk!=null?bandOf(fk):bands.find(b=>b.id===location.hash.slice(1));
-if(fb){const f=$('friend');f.style.display='block';f.innerHTML=fk!=null?`친구는 ${items.length}개 중 ${fk}개 해당, <b>${fb.band}</b>. 당신은 몇 개일까요?`:`친구의 결과는 <b>${fb.band}</b>. 당신은 몇 개일까요?`}}
+
 update();
 }
 </script>
