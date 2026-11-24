@@ -118,7 +118,8 @@ button:focus-visible,.btn:focus-visible,input:focus-visible{outline:3px solid va
 .loading .lcover{display:block;width:min(46%,200px);margin-top:26px}
 .loading img{width:100%;height:auto;display:block;box-shadow:0 14px 36px rgba(0,0,0,.5)}
 .tohome{margin:-20px 0 0;padding-bottom:40px;text-align:center;font-size:14px;color:var(--gray)}
-.tohome a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+.tohome a{display:inline-block}
+.tohome img{display:block;width:120px;height:auto;box-shadow:none}
 .loading .pitch{margin:24px 0 0;font-size:clamp(19px,5.2cqw,22px);line-height:1.6;font-weight:700}
 .loading .sub2{margin:8px 0 0;font-size:15px;line-height:1.6;font-weight:700;color:var(--gray)}
 .loading .rec{margin:16px 0 0;font-size:15px;line-height:1.9;font-weight:700}
@@ -223,7 +224,7 @@ document.addEventListener('click', function (ev) {
 <a class="btn" href="https://aladin.kr/p/Zh8B1" target="_blank" rel="noopener" id="buy" data-store="알라딘" data-book="책 공포증">자세히 보기</a>
 </div>
 </div>
-<p class="tohome"><a href="/" id="toHome">미간 홈페이지 →</a></p>
+<p class="tohome"><a href="/" id="toHome"><img src="a/migan-ko-horizontal-white.svg" alt="미간 홈페이지" width="120" height="27"></a></p>
 </section>
 
 <section class="loading" id="loading" aria-live="polite" hidden>
