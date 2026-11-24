@@ -333,7 +333,7 @@ function update(){
 function show(scroll){
   const b=bandOf(n());
   document.querySelectorAll('#bands div').forEach(d=>d.classList.toggle('on',d.dataset.id===b.id));
-  $('adHead').textContent=`${b.band}인 당신을 위한 책`;   // 예: 책 공포증 잠복기인 당신을 위한 책
+  $('adHead').textContent=`${b.id==='r1'?'책 공포증 안전군':b.band}인 당신을 위한 책`;   // 예: 책 공포증 잠복기인 당신을 위한 책 (0~5개는 '안전군')
   draw();if(scroll)note('');
 }
 async function copyLink(){
