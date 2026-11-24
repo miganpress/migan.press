@@ -115,7 +115,10 @@ button:focus-visible,.btn:focus-visible,input:focus-visible{outline:3px solid va
 .lbar i{display:block;height:100%;width:0;background:var(--red)}
 .loading.on .lbar i{animation:fillbar 2.5s linear forwards}
 @keyframes fillbar{to{width:100%}}
-.loading img{width:min(46%,200px);height:auto;margin-top:26px;box-shadow:0 14px 36px rgba(0,0,0,.5)}
+.loading .lcover{display:block;width:min(46%,200px);margin-top:26px}
+.loading img{width:100%;height:auto;display:block;box-shadow:0 14px 36px rgba(0,0,0,.5)}
+.tohome{margin:-20px 0 0;padding-bottom:40px;text-align:center;font-size:14px;color:var(--gray)}
+.tohome a{color:inherit;text-decoration:underline;text-underline-offset:3px}
 .loading .pitch{margin:24px 0 0;font-size:clamp(19px,5.2cqw,22px);line-height:1.6;font-weight:700}
 .loading .sub2{margin:8px 0 0;font-size:15px;line-height:1.6;font-weight:700;color:var(--gray)}
 .loading .rec{margin:16px 0 0;font-size:15px;line-height:1.9;font-weight:700}
@@ -220,12 +223,13 @@ document.addEventListener('click', function (ev) {
 <a class="btn" href="https://aladin.kr/p/Zh8B1" target="_blank" rel="noopener" id="buy" data-store="알라딘" data-book="책 공포증">자세히 보기</a>
 </div>
 </div>
+<p class="tohome"><a href="/" id="toHome">미간 홈페이지 →</a></p>
 </section>
 
 <section class="loading" id="loading" aria-live="polite" hidden>
 <p class="lt">진단 중…</p>
 <div class="lbar" aria-hidden="true"><i></i></div>
-<img src="a/cover.jpg" alt="『책 공포증』 표지">
+<a href="https://aladin.kr/p/Zh8B1" target="_blank" rel="noopener" id="buyLoad" class="lcover"><img src="a/cover.jpg" alt="『책 공포증』 알라딘에서 보기"></a>
 <p class="pitch">“내 인생을 이렇게 만든 건 책이었다.”</p>
 <p class="sub2">책 속으로 도망쳐본 이들을 위한<br>서늘하고도 아름다운 고백</p>
 <p class="rec"><span class="hl">김겨울, 하미나, 이윤 리 추천!</span><br>2026 퓰리처상 최종 후보작</p>
@@ -379,7 +383,9 @@ update();
   on('share','click',function(){var k=c();t('test_share',{checked:k,band:band(k)})});
   on('save','click',function(){var k=c();t('test_save',{checked:k,band:band(k)})});
   on('again','click',function(){t('test_again')});
-  on('buy','click',function(){var k=c();t('test_store_click',{store:'알라딘',checked:k,band:band(k)})});   // 테스트에서 누른 서점 링크는 따로 집계
+  on('buy','click',function(){var k=c();t('test_store_click',{store:'알라딘',place:'result',checked:k,band:band(k)})});
+  on('buyLoad','click',function(e){e.stopPropagation();var k=c();t('test_store_click',{store:'알라딘',place:'loading',checked:k,band:band(k)})});   // 진단 중 표지: 알라딘 열고 로딩은 그대로 진행
+  on('toHome','click',function(){t('test_to_home')});   // 테스트에서 누른 서점 링크는 따로 집계
   if(/^#n\d+$/.test(location.hash))t('test_from_share',{shared_checked:+location.hash.slice(2)});
 })();
 </script>
