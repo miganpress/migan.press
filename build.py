@@ -774,7 +774,8 @@ def page_book(site, books, i):
     if book.get("isbn"):
         isbn = book["isbn"] + (f" {book['add_code']}" if book.get("add_code") else "")
         rows.append(("ISBN", e(isbn)))
-    stores = [(n, book.get(k)) for n, k in (("교보문고", "kyobo"), ("예스24", "yes24"), ("알라딘", "aladin")) if book.get(k)]
+    # 시트에 적힌 서점 주소는 http(s)로 시작할 때만 링크로 씀(다른 형식의 주소가 섞여 들어가 스크립트처럼 실행되는 일 방지)
+    stores = [(n, str(book.get(k)).strip()) for n, k in (("교보문고", "kyobo"), ("예스24", "yes24"), ("알라딘", "aladin")) if re.match(r"https?://", str(book.get(k) or "").strip(), re.I)]
     if stores:
         rows.append(("구입처", '<span class="stores">' + "".join(f'<a href="{e(u)}" target="_blank" rel="noopener" data-ga="store" data-store="{n}" data-book="{e(book["title"])}">{n}<span aria-hidden="true">↗</span></a>' for n, u in stores) + "</span>"))
     dl = "\n".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in rows)
