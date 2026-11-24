@@ -98,17 +98,20 @@ button:focus-visible,.btn:focus-visible,input:focus-visible{outline:3px solid va
 .bands div{padding:9px 8px;border:1px solid var(--line);border-radius:4px;font-size:13px;color:var(--gray)}
 .bands div.on{border-color:var(--red);background:var(--red);color:var(--white)}
 .bands b{display:block;font-size:14px;color:var(--white)}
-.actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:16px}
+.actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:32px}
 .actions button{min-height:38px;padding:0 16px;font-size:14px}   /* 공유·저장·다시 하기는 작게: 아래 책이 더 잘 보이게 */
 .disclaimer{margin:16px 0 0;text-align:center;font-size:13px;color:#8d8781}
 .note{margin:12px auto 0;max-width:480px;text-align:center;font-size:14px;color:var(--gray);min-height:1.5em}
 /* 책 */
 .book{margin-top:0}
-.book .wrap{padding-top:12px;padding-bottom:48px;display:flex;gap:20px;align-items:center;justify-content:center}
-.book img{width:84px;height:auto;flex:none;box-shadow:0 8px 20px rgba(0,0,0,.4)}
-.book .meta{margin:0;color:var(--gray);font-size:14px;line-height:1.6;font-weight:700}
-.book .meta b{color:var(--white);font-size:18px}
-.book .btn{margin-top:12px;min-height:42px;padding:0 18px;font-size:15px}
+/* 결과 카드 바로 아래 책 광고 */
+.ad{margin:28px auto 0;max-width:520px}
+.adh{margin:0 0 14px;text-align:center;font-size:17px;font-weight:700;color:var(--white)}
+.adbody{display:flex;gap:20px;align-items:center;justify-content:center}
+.ad img{width:84px;height:auto;flex:none;box-shadow:0 8px 20px rgba(0,0,0,.4)}
+.ad .meta{margin:0;color:var(--gray);font-size:14px;line-height:1.6;font-weight:700}
+.ad .meta b{color:var(--white);font-size:18px}
+.ad .btn{margin-top:12px;min-height:42px;padding:0 18px;font-size:15px}
 /* 로딩 */
 .loading{position:fixed;inset:0;margin:0 auto;max-width:440px;z-index:10;background:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 24px;text-align:center;cursor:pointer}
 .loading .lt{margin:0;font-size:16px;font-weight:700;color:var(--gray)}
@@ -118,7 +121,7 @@ button:focus-visible,.btn:focus-visible,input:focus-visible{outline:3px solid va
 @keyframes fillbar{to{width:100%}}
 .loading .lcover{display:block;width:min(46%,200px);margin-top:26px}
 .loading img{width:100%;height:auto;display:block;box-shadow:0 14px 36px rgba(0,0,0,.5)}
-.tohome{margin:-4px 0 0;padding-bottom:60px;text-align:center;font-size:14px;color:var(--gray)}
+.tohome{margin:44px 0 0;padding-bottom:60px;text-align:center;font-size:14px;color:var(--gray)}
 .tohome a{display:inline-block}
 .tohome img{display:block;width:120px;height:auto;box-shadow:none}
 .loading .pitch{margin:24px 0 0;font-size:clamp(19px,5.2cqw,22px);line-height:1.6;font-weight:700}
@@ -206,6 +209,16 @@ document.addEventListener('click', function (ev) {
 <section class="result" id="result" aria-labelledby="rTitle" hidden>
 <h2 id="rTitle" hidden>당신의 결과</h2>
 <img class="cardimg" id="cardImg" alt="">
+<div class="ad" aria-labelledby="adHead">
+<p class="adh" id="adHead">당신을 위한 책</p>
+<div class="adbody">
+<img src="a/cover.jpg" alt="『책 공포증』 표지">
+<div>
+<p class="meta" id="bookTitle"><b>책 공포증</b><br>어느 독서광의 고백<br>세라 치하야 지음, 박다솜 옮김</p>
+<a class="btn" href="https://aladin.kr/p/Zh8B1" target="_blank" rel="noopener" id="buy" data-store="알라딘" data-book="책 공포증">책 보러 가기</a>
+</div>
+</div>
+</div>
 <div class="bands" id="bands" hidden></div>
 <div class="actions">
 <button type="button" id="share">공유하기</button>
@@ -217,14 +230,7 @@ document.addEventListener('click', function (ev) {
 </section>
 </main>
 
-<section class="book" id="book" aria-labelledby="bookTitle" hidden>
-<div class="wrap">
-<img src="a/cover.jpg" alt="『책 공포증』 표지">
-<div>
-<p class="meta" id="bookTitle"><b>책 공포증</b><br>어느 독서광의 고백<br>세라 치하야 지음, 박다솜 옮김</p>
-<a class="btn" href="https://aladin.kr/p/Zh8B1" target="_blank" rel="noopener" id="buy" data-store="알라딘" data-book="책 공포증">책 보러 가기</a>
-</div>
-</div>
+<section class="book" id="book" hidden>
 <p class="tohome"><a href="/" id="toHome"><img src="a/migan-ko-horizontal-white.svg" alt="미간 홈페이지" width="120" height="27"></a></p>
 </section>
 
@@ -327,6 +333,7 @@ function update(){
 function show(scroll){
   const b=bandOf(n());
   document.querySelectorAll('#bands div').forEach(d=>d.classList.toggle('on',d.dataset.id===b.id));
+  $('adHead').textContent=`${b.band}인 당신을 위한 책`;   // 예: 책 공포증 잠복기인 당신을 위한 책
   draw();if(scroll)note('');
 }
 async function copyLink(){
