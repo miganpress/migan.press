@@ -386,7 +386,13 @@ update();
   on('again','click',function(){t('test_again')});
   on('buy','click',function(){var k=c();t('test_store_click',{store:'알라딘',place:'result',checked:k,band:band(k)})});
   on('buyLoad','click',function(e){e.stopPropagation();var k=c();t('test_store_click',{store:'알라딘',place:'loading',checked:k,band:band(k)})});   // 진단 중 표지: 알라딘 열고 로딩은 그대로 진행
-  on('toHome','click',function(){t('test_to_home')});   // 테스트에서 누른 서점 링크는 따로 집계
+  // 미간 로고: 같은 창에서 바로 넘어가면 기록이 빠질 수 있어, 기록을 보낸 뒤(최대 0.4초) 이동
+  on('toHome','click',function(e){
+    if(e.metaKey||e.ctrlKey||e.shiftKey||e.button)return t('test_to_home');
+    e.preventDefault();var href=this.href,done=false,goNow=function(){if(!done){done=true;location.href=href}};
+    try{gtag('event','test_to_home',{test:'bibliophobia',transport_type:'beacon',event_callback:goNow})}catch(_){}
+    setTimeout(goNow,400);
+  });
   if(/^#n\d+$/.test(location.hash))t('test_from_share',{shared_checked:+location.hash.slice(2)});
 })();
 </script>
