@@ -102,6 +102,12 @@ button:focus-visible,.btn:focus-visible,input:focus-visible{outline:3px solid va
 .actions button{min-height:38px;padding:0 16px;font-size:14px}   /* 공유·저장·다시 하기는 작게: 아래 책이 더 잘 보이게 */
 .disclaimer{margin:16px 0 0;text-align:center;font-size:13px;color:#8d8781}
 .note{margin:12px auto 0;max-width:480px;text-align:center;font-size:14px;color:var(--gray);min-height:1.5em}
+/* 인스타 태그 추첨 이벤트(12/7까지) */
+.ig-ev{margin:36px auto 0;max-width:520px;text-align:center}
+.ig-h{margin:0;font-size:15px;line-height:1.6;font-weight:700;color:var(--white)}
+.ig-h a{color:var(--red);text-decoration:none}
+.ig-s{margin:6px 0 0;font-size:11px;color:#8d8781}
+.ig-ev + .actions{margin-top:14px}
 /* 책 */
 .book{margin-top:0}
 /* 결과 카드 바로 아래 책 광고 */
@@ -220,6 +226,10 @@ document.addEventListener('click', function (ev) {
 </div>
 </div>
 <div class="bands" id="bands" hidden></div>
+<div class="ig-ev">
+<p class="ig-h">결과 카드를 인스타에 올리고 <a href="https://www.instagram.com/migan.press/" target="_blank" rel="noopener" id="igLink">@migan.press</a>를 태그하면<br>추첨으로 다섯 분께 『책 공포증』을 보내 드려요</p>
+<p class="ig-s">12/7까지 · 12/9 DM 발표 · 비공개 계정 제외</p>
+</div>
 <div class="actions">
 <button type="button" id="share">결과 공유하기</button>
 <button type="button" class="ghost" id="save">이미지 저장</button>
@@ -392,6 +402,7 @@ update();
   on('share','click',function(){var k=c();t('test_share',{checked:k,band:band(k)})});
   on('save','click',function(){var k=c();t('test_save',{checked:k,band:band(k)})});
   on('again','click',function(){t('test_again')});
+  on('igLink','click',function(){t('test_ig_click')});   // 이벤트 안내의 @migan.press 클릭
   on('buy','click',function(){var k=c();t('test_store_click',{store:'알라딘',place:'result',checked:k,band:band(k)})});
   on('buyLoad','click',function(e){e.stopPropagation();var k=c();t('test_store_click',{store:'알라딘',place:'loading',checked:k,band:band(k)})});   // 진단 중 표지: 알라딘 열고 로딩은 그대로 진행
   // 미간 로고: 같은 창에서 바로 넘어가면 기록이 빠질 수 있어, 기록을 보낸 뒤(최대 0.4초) 이동
